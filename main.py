@@ -5,13 +5,17 @@ from PIL import Image
 qr = qrcode.QRCode(
     version=1,
     error_correction=qrcode.constants.ERROR_CORRECT_L,
-    box_size=10,
+    box_size=1,
     border=0,
 )
 qr.add_data('https://h3turing.vmhost.psu.edu?Abcdefghij1234567890abcdefghiJ')
-qr.make(fit=True)
+#qr.make(fit=True)
+qr.clear()
+print(qr.border, qr.box_size)
+qr.add_data('https://h3turing.vmhost.psu.edu?' + 'Abcdefghij1234567890abcdefghiJ2222')
+print(qr.data_list)
 
-print(qr.get_matrix())
+print(len(qr.get_matrix()))
 
 
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'

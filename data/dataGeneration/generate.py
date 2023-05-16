@@ -43,6 +43,7 @@ while True:
     line = trainStrings.readline()
     if not line:
         break
+    qr.clear()
     qr.add_data('https://h3turing.vmhost.psu.edu?' + line)
     matrix = qr.get_matrix()
     np.savetxt(trainCodes, np.asarray(matrix))
@@ -56,6 +57,7 @@ while True:
     line = testStrings.readline()
     if not line:
         break
+    qr.clear()
     qr.add_data('https://h3turing.vmhost.psu.edu?' + line)
     matrix = qr.get_matrix()
     np.savetxt(testCodes, np.asarray(matrix))
