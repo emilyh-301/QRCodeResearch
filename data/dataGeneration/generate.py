@@ -24,6 +24,9 @@ def produce_amount_keys(amount_of_keys, length=30):
         count += 1
     train.close()
     test.close()
+print('query strings done')
+
+produce_amount_keys(20000, 30)
 
 # simplest QR Code with no border and box_size of 1
 qr = qrcode.QRCode(
@@ -44,6 +47,7 @@ while True:
     np.savetxt(trainCodes, np.asarray(matrix))
 trainCodes.close()
 trainStrings.close()
+print('training done')
 
 testStrings = open('../test/queryStrings.txt', 'r')
 testCodes = open('../test/qrCodes.txt', 'a')
