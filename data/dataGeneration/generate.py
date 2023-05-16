@@ -14,7 +14,7 @@ def produce_amount_keys(amount_of_keys, length=30):
     while len(keys) < amount_of_keys:
         keys |= {''.join([pickchar() for _ in range(length)]) for _ in range(amount_of_keys - len(keys))}
     train = open('../train/queryStrings.txt', 'a')
-    test = open('../text/queryStrings.txt', 'a')
+    test = open('../test/queryStrings.txt', 'a')
     count = 0
     for key in keys:
         if count % 5 == 0:
@@ -24,9 +24,10 @@ def produce_amount_keys(amount_of_keys, length=30):
         count += 1
     train.close()
     test.close()
-print('query strings done')
+    print('query strings done')
 
 produce_amount_keys(20000, 30)
+
 
 # simplest QR Code with no border and box_size of 1
 qr = qrcode.QRCode(
