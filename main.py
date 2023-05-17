@@ -1,5 +1,6 @@
 import qrcode.image.svg
 import qrcode
+import numpy as np
 from PIL import Image
 
 qr = qrcode.QRCode(
@@ -15,8 +16,11 @@ print(qr.border, qr.box_size)
 qr.add_data('https://h3turing.vmhost.psu.edu?' + 'Abcdefghij1234567890abcdefghiJ2222')
 print(qr.data_list)
 
-print(len(qr.get_matrix()))
-
+print(qr.get_matrix())
+file = open('try.txt', 'w')
+np.savetxt(file, np.asarray(qr.get_matrix(), fmt='%d'))
+print(np.asarray(qr.get_matrix()))
+file.close()
 
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
