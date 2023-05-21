@@ -30,7 +30,7 @@ np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d', delimiter='*')
 file.close()
 read_file = open('try.txt', 'r')
 info = np.loadtxt(read_file, delimiter='*')
-print(info[1])
+print(info[0:33])
 print('shape' + str(info.shape))
 read_file.close()
 
