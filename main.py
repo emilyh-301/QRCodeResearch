@@ -30,8 +30,8 @@ np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d', delimiter='*')
 file.close()
 read_file = open('try.txt', 'r')
 info = np.loadtxt(read_file, delimiter='*', ndmin=2)
-print(info)
-print('shape' + str(info.shape))
+print(info[1])
+print('shape' + str(info[0].shape))
 read_file.close()
 
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
