@@ -30,6 +30,7 @@ np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d', delimiter=',')
 np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d', delimiter=',')
 file.close()
 read_file = open('try.txt', 'r')
+# https://stackoverflow.com/questions/3685265/how-to-write-a-multidimensional-array-to-a-text-file
 info = np.loadtxt(read_file, delimiter=',', ndmin=2).reshape(2,33,33)
 print(info[1])
 #print(info[0:35])
