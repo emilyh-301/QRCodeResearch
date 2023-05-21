@@ -17,11 +17,13 @@ read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
 read_test_labels.close()
 
+
 def load_my_data(path, num):
     file = open(path, 'r')
     data = np.loadtxt(file, delimiter=',', ndmin=2).reshape(num, 33, 33)
     file.close()
     return data
+
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
 model = tf.keras.applications.efficientnet.EfficientNetB0(
@@ -49,7 +51,7 @@ model.save('my_qr_model')
 # training
 X = load_my_data(train_data_path, 16000)
 print('Training the model')
-model.fit(x=X, y=y_train, batch_size=128, epochs=100, validation_split=.2)
+model.fit(x=X, y=y_train, batch_size=128, epochs=100)
 
 # testing
 X = load_my_data(test_data_path, 4000)
@@ -57,14 +59,17 @@ print('Evaluate on test data')
 results = model.evaluate(x=X, y=y_test, batch_size=128)
 print('test loss, test acc:', results)
 
+
+# my own loss function
 class QRCodeLoss(Loss):
     '''
     @:param y_true: the input QR Code
     @:param y_pred: the output 30 character sequence
     '''
+
     def call(self, y_true, y_pred):
-        #print('shape of y_pred ' + y_pred.shape)
-        #print('type of y_pred ' + type(y_pred))
+        # print('shape of y_pred ' + y_pred.shape)
+        # print('type of y_pred ' + type(y_pred))
         # map the nn output to strings
         map_pred = ''
         for x in y_pred:
@@ -76,5 +81,5 @@ class QRCodeLoss(Loss):
             border=0,
         )
         qr.add_data(input_url + map_pred)
-        #pred_matrix = qr.get_matrix()
+        # pred_matrix = qr.get_matrix()
         return Loss.BinaryCrossentropy(y_true, qr.get_matrix())
