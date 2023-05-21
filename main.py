@@ -38,6 +38,7 @@ info = np.loadtxt(read_file, delimiter=',', ndmin=2).reshape(2,33,33)
 print(type(info))
 print(type(info[0]))
 print(type(info[0][0]))
+print(type(info[0][0][0]))
 read_file.close()
 
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
