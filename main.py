@@ -26,9 +26,12 @@ read_file.close()
 print('*******************************')
 file = open('try.txt', 'w+')
 np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d')
+file.write('*')
 file.close()
 read_file = open('try.txt', 'r')
-print(np.loadtxt(read_file))
+info = np.loadtxt(read_file, delimiter='*')
+print(info[1])
+print('shape' + info.shape)
 read_file.close()
 
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
