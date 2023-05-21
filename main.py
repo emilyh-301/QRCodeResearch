@@ -19,12 +19,17 @@ print(qr.data_list)
 print(qr.get_matrix())
 file = open('try.txt', 'w+')
 np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d')
+file.close()
 read_file = open('try.txt', 'r')
 print(np.loadtxt(read_file))
+read_file.close()
 print('*******************************')
+file = open('try.txt', 'w+')
 np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d')
-print(np.loadtxt(read_file))
 file.close()
+read_file = open('try.txt', 'r')
+print(np.loadtxt(read_file))
+read_file.close()
 
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
