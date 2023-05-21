@@ -5,7 +5,7 @@ from PIL import Image
 
 qr = qrcode.QRCode(
     version=1,
-    #error_correction=qrcode.constants.ERROR_CORRECT_L,
+    error_correction=qrcode.constants.ERROR_CORRECT_L,
     box_size=1,
     border=0,
 )
