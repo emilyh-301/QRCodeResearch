@@ -21,3 +21,4 @@ while True:
     np.savetxt(testCodes, np.asarray(matrix), fmt='%d', delimiter=',')
 testCodes.close()
 testStrings.close()
+print('Done generating test codes')

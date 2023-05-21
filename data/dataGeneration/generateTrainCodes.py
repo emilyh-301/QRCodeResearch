@@ -9,8 +9,8 @@ qr = qrcode.QRCode(
 )
 qr.make(fit=True)
 
-trainStrings = open('../test/queryStrings.txt', 'r')
-trainCodes = open('../test/qrCodes.txt', 'a+')
+trainStrings = open('../train/queryStrings.txt', 'r')
+trainCodes = open('../train/qrCodes.txt', 'a+')
 while True:
     line = trainStrings.readline()
     if not line:
@@ -21,3 +21,4 @@ while True:
     np.savetxt(trainCodes, np.asarray(matrix), fmt='%d', delimiter=',')
 trainCodes.close()
 trainStrings.close()
+print('Done generating train codes')
