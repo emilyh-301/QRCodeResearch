@@ -7,7 +7,7 @@ qr = qrcode.QRCode(
     box_size=1,
     border=0,
 )
-qr.make(fit=True)
+#qr.make(fit=True)
 
 testStrings = open('../test/queryStrings.txt', 'r')
 testCodes = open('../test/qrCodes.txt', 'w+')
