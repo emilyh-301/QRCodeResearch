@@ -1,6 +1,6 @@
 import qrcode
 import tensorflow as tf
-import tf.keras.losses.Loss as Loss
+import tensorflow.keras.losses.Loss as Loss
 from mappings import output_mapping
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
@@ -10,8 +10,8 @@ test_data = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 x_train = None
 x_test = None
-y_train = open(train_labels).read().split('\n')
-y_test = open(test_labels).read().split('\n')
+y_train = open(train_labels, 'r').read().split('\n')
+y_test = open(test_labels, 'r').read().split('\n')
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
 model = tf.keras.applications.efficientnet.EfficientNetB0(
