@@ -9,13 +9,6 @@ train_data_path = '../data/train/qrCodes.txt'
 train_labels = '../data/train/queryStrings.txt'
 test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
-# load the labels
-read_train_labels = open(train_labels, 'r')
-y_train = read_train_labels.read().split('\n')
-read_train_labels.close()
-read_test_labels = open(test_labels, 'r')
-y_test = read_test_labels.read().split('\n')
-read_test_labels.close()
 
 
 def load_my_data(path, num):
@@ -50,13 +43,19 @@ model.save('my_qr_model')
 
 # training
 X = load_my_data(train_data_path, 16000)
+read_train_labels = open(train_labels, 'r')
+Y = read_train_labels.read().split('\n')
+read_train_labels.close()
 print('Training the model')
-model.fit(x=X, y=y_train, batch_size=128, epochs=100)
+model.fit(x=X, y=range(0, 16000), batch_size=128, epochs=100)
 
 # testing
 X = load_my_data(test_data_path, 4000)
+read_test_labels = open(test_labels, 'r')
+y_test = read_test_labels.read().split('\n')
+read_test_labels.close()
 print('Evaluate on test data')
-results = model.evaluate(x=X, y=y_test, batch_size=128)
+results = model.evaluate(x=X, y=range(0, 4000), batch_size=128)
 print('test loss, test acc:', results)
 
 
@@ -64,7 +63,7 @@ print('test loss, test acc:', results)
 class QRCodeLoss(Loss):
     '''
     @:param y_true: the input QR Code
-    @:param y_pred: the output 30 character sequence
+    @:param y_pred: index of Y
     '''
 
     def call(self, y_true, y_pred):
@@ -72,7 +71,7 @@ class QRCodeLoss(Loss):
         # print('type of y_pred ' + type(y_pred))
         # map the nn output to strings
         map_pred = ''
-        for x in y_pred:
+        for x in Y[y_pred]:
             map_pred += output_mapping[x]
         qr = qrcode.QRCode(
             version=1,
