@@ -10,7 +10,7 @@ qr = qrcode.QRCode(
 qr.make(fit=True)
 
 testStrings = open('../test/queryStrings.txt', 'r')
-testCodes = open('../test/qrCodes.txt', 'a')
+testCodes = open('../test/qrCodes.txt', 'a+')
 while True:
     line = testStrings.readline()
     if not line:
