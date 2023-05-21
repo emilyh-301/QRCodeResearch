@@ -4,6 +4,7 @@ import numpy as np
 # simplest QR Code with no border and box_size of 1
 qr = qrcode.QRCode(
     version=1,
+    error_correction=qrcode.constants.ERROR_CORRECT_L,
     box_size=1,
     border=0,
 )

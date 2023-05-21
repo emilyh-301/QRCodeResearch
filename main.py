@@ -10,7 +10,7 @@ qr = qrcode.QRCode(
     border=0,
 )
 qr.add_data('https://h3turing.vmhost.psu.edu?Abcdefghij1234567890abcdefghiJ')
-#qr.make(fit=True)
+qr.make(fit=True)
 qr.clear()
 print(qr.border, qr.box_size)
 qr.add_data('https://h3turing.vmhost.psu.edu?' + 'Abcdefghij1234567890abcdefghiJ2222')
