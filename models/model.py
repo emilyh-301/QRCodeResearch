@@ -49,7 +49,7 @@ model.save('my_qr_model')
 # training
 X = load_my_data(train_data_path, 16000)
 print('Training the model')
-model.fit(x=X, y=y_train, batch_size=128, epochs=10)
+model.fit(x=X, y=y_train, batch_size=128, epochs=100, validation_split=.2)
 
 # testing
 X = load_my_data(test_data_path, 4000)
