@@ -2,20 +2,26 @@ import qrcode
 import tensorflow as tf
 from tensorflow.keras.losses import Loss
 from mappings import output_mapping
+import numpy as np
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
-train_data = '../data/train/qrCodes.txt'
+train_data_path = '../data/train/qrCodes.txt'
 train_labels = '../data/train/queryStrings.txt'
-test_data = '../data/test/qrCodes.txt'
+test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
-x_train = None
-x_test = None
+# load the labels
 read_train_labels = open(train_labels, 'r')
 y_train = read_train_labels.read().split('\n')
 read_train_labels.close()
 read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
 read_test_labels.close()
+
+def load_my_data(path, num):
+    file = open(path, 'r')
+    data = np.loadtxt(file, delimiter=',', ndmin=2).reshape(2, 33, 33)
+    file.close()
+    return data
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
 model = tf.keras.applications.efficientnet.EfficientNetB0(
@@ -40,11 +46,15 @@ model.compile(
 )
 model.save('my_qr_model')
 
+# training
+X = load_my_data(train_data_path, 16000)
 print('Training the model')
-model.fit(x=x_train, y=y_train, batch_size=128, epochs=10)
+model.fit(x=X, y=y_train, batch_size=128, epochs=10)
 
+# testing
+X = load_my_data(test_data_path, 4000)
 print('Evaluate on test data')
-results = model.evaluate(x_test, y_test, batch_size=128)
+results = model.evaluate(x=X, y=y_test, batch_size=128)
 print('test loss, test acc:', results)
 
 class QRCodeLoss(Loss):
@@ -53,7 +63,7 @@ class QRCodeLoss(Loss):
     @:param y_pred: the output 30 character sequence
     '''
     def call(self, y_true, y_pred):
-        print('shape of y_pred ' + y_pred.shape)
+        #print('shape of y_pred ' + y_pred.shape)
         #print('type of y_pred ' + type(y_pred))
         # map the nn output to strings
         map_pred = ''
