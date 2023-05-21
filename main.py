@@ -14,7 +14,7 @@ qr.add_data('https://h3turing.vmhost.psu.edu?Abcdefghij1234567890abcdefghiJ')
 qr.clear()
 print(qr.border, qr.box_size)
 qr.add_data('https://h3turing.vmhost.psu.edu?' + 'Abcdefghij1234567890abcdefghiJ2222')
-print(qr.get_matrix().shape)
+print(qr.get_matrix())
 print(np.asarray(qr.get_matrix()))
 
 # print(qr.get_matrix())
