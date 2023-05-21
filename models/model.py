@@ -37,7 +37,7 @@ model.compile(
 model.save('my_qr_model')
 
 print('Training the model')
-model.fit(x=x_train, y=y_train, batch_size=128, epochs=10, validation_split=.2)
+model.fit(x=x_train, y=y_train, batch_size=128, epochs=10)
 
 print('Evaluate on test data')
 results = model.evaluate(x_test, y_test, batch_size=128)
@@ -50,7 +50,7 @@ class QRCodeLoss(Loss):
     '''
     def call(self, y_true, y_pred):
         print('shape of y_pred ' + y_pred.shape)
-        print('type of y_pred ' + type(y_pred))
+        #print('type of y_pred ' + type(y_pred))
         # map the nn output to strings
         map_pred = ''
         for x in y_pred:
