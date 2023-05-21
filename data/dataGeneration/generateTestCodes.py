@@ -18,7 +18,7 @@ while True:
     qr.clear()
     qr.add_data('https://h3turing.vmhost.psu.edu?' + line)
     matrix = qr.get_matrix()
-    np.savetxt(testCodes, np.asarray(matrix))
+    np.savetxt(testCodes, np.asarray(matrix), fmt='%d')
     print(np.asarray(matrix))
 testCodes.close()
 testStrings.close()
