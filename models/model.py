@@ -1,6 +1,6 @@
 import qrcode
 import tensorflow as tf
-import tensorflow.keras.losses.Loss as Loss
+from tensorflow.keras.losses import Loss
 from mappings import output_mapping
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
