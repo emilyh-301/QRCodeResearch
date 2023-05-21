@@ -17,9 +17,10 @@ qr.add_data('https://h3turing.vmhost.psu.edu?' + 'Abcdefghij1234567890abcdefghiJ
 print(qr.data_list)
 
 print(qr.get_matrix())
-file = open('try.txt', 'w+')
+file = open('try.txt', 'rw+')
 np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d')
 print(np.loadtxt(file))
+print('*******************************')
 np.savetxt(file, np.asarray(qr.get_matrix()), fmt='%d')
 print(np.loadtxt(file))
 file.close()
