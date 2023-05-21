@@ -19,7 +19,7 @@ read_test_labels.close()
 
 def load_my_data(path, num):
     file = open(path, 'r')
-    data = np.loadtxt(file, delimiter=',', ndmin=2).reshape(2, 33, 33)
+    data = np.loadtxt(file, delimiter=',', ndmin=2).reshape(num, 33, 33)
     file.close()
     return data
 
