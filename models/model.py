@@ -5,7 +5,7 @@ from mappings import output_mapping
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data = '../data/train/qrCodes.txt'
-train_labels = '../data/trian/queryStrings.txt'
+train_labels = '../data/train/queryStrings.txt'
 test_data = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 x_train = None
