@@ -47,7 +47,7 @@ read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')
 read_train_labels.close()
 print('Training the model')
-model.fit(x=X, y=range(0, 16000), batch_size=128, epochs=100)
+model.fit(x=X, y=list(range(0, 16000)), batch_size=128, epochs=100)
 
 # testing
 X = load_my_data(test_data_path, 4000)
@@ -55,7 +55,7 @@ read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
 read_test_labels.close()
 print('Evaluate on test data')
-results = model.evaluate(x=X, y=range(0, 4000), batch_size=128)
+results = model.evaluate(x=X, y=list(range(0, 4000)), batch_size=128)
 print('test loss, test acc:', results)
 
 
