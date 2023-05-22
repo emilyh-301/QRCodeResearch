@@ -17,6 +17,28 @@ def load_my_data(path, num):
     file.close()
     return data
 
+# my own loss function
+def QRCodeLoss(y_true, y_pred):
+    '''
+   @:param y_true: the input QR Code matrix
+   @:param y_pred: index of Y
+   '''
+    # print('shape of y_pred ' + y_pred.shape)
+    # print('type of y_pred ' + type(y_pred))
+    # map the nn output to strings
+    map_pred = ''
+    for x in Y[y_pred]:
+        map_pred += output_mapping[x]
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=1,
+        border=0,
+    )
+    qr.add_data(input_url + map_pred)
+    # pred_matrix = qr.get_matrix()
+    return Loss.BinaryCrossentropy(y_true, qr.get_matrix())
+
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
 model = tf.keras.applications.efficientnet.EfficientNetB0(
@@ -31,7 +53,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
 
 model.compile(
     optimizer='adagrad',
-    loss=None,
+    loss=QRCodeLoss,
     metrics='acc',
     loss_weights=None,
     weighted_metrics=None,
@@ -47,7 +69,7 @@ read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')
 read_train_labels.close()
 print('Training the model')
-model.fit(x=X, y=list(range(0, 16000)), batch_size=128, epochs=100)
+model.fit(x=X, y=np.asarray(list(range(0, 16000))), batch_size=128, epochs=100)
 
 # testing
 X = load_my_data(test_data_path, 4000)
@@ -55,30 +77,7 @@ read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
 read_test_labels.close()
 print('Evaluate on test data')
-results = model.evaluate(x=X, y=list(range(0, 4000)), batch_size=128)
+results = model.evaluate(x=X, y=np.asarray(list(range(0, 4000))), batch_size=128)
 print('test loss, test acc:', results)
 
 
-# my own loss function
-class QRCodeLoss(Loss):
-    '''
-    @:param y_true: the input QR Code
-    @:param y_pred: index of Y
-    '''
-
-    def call(self, y_true, y_pred):
-        # print('shape of y_pred ' + y_pred.shape)
-        # print('type of y_pred ' + type(y_pred))
-        # map the nn output to strings
-        map_pred = ''
-        for x in Y[y_pred]:
-            map_pred += output_mapping[x]
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=1,
-            border=0,
-        )
-        qr.add_data(input_url + map_pred)
-        # pred_matrix = qr.get_matrix()
-        return Loss.BinaryCrossentropy(y_true, qr.get_matrix())
