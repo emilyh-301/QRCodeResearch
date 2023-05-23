@@ -21,13 +21,13 @@ def load_my_data(path, num):
 def QRCodeLoss(y_true, y_pred):
     '''
    @:param y_true: the input QR Code matrix
-   @:param y_pred: index of Y
+   @:param y_pred: index of Y as a Tensor, so we have to convert it
    '''
     # print('shape of y_pred ' + y_pred.shape)
     # print('type of y_pred ' + type(y_pred))
     # map the nn output to strings
     map_pred = ''
-    for x in Y[y_pred]:
+    for x in Y[y_pred.item()]:
         map_pred += output_mapping[x]
     qr = qrcode.QRCode(
         version=1,
