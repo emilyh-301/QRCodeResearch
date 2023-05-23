@@ -6,7 +6,7 @@ import numpy as np
 import torch
 from numba import jit, cuda
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
@@ -67,7 +67,7 @@ model.compile(
     weighted_metrics=None,
     run_eagerly=None,
     steps_per_execution=None,
-    jit_compile=True,
+    jit_compile=None,
 )
 model.save('my_qr_model')
 
