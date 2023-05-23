@@ -2,6 +2,8 @@ import qrcode
 import secrets
 from functools import partial
 
+import constants
+
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
 # 20,000 total
@@ -25,7 +27,7 @@ def produce_amount_keys(amount_of_keys, length=30):
     test.close()
     print('query strings done')
 
-produce_amount_keys(20000, 30)
+produce_amount_keys(constants.num_of_train_data + constants.num_of_test_data, 30)
 
 # simplest QR Code with no border and box_size of 1
 qr = qrcode.QRCode(

@@ -3,6 +3,7 @@ import tensorflow as tf
 from tensorflow.keras.losses import Loss
 from mappings import output_mapping
 import numpy as np
+import torch
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data_path = '../data/train/qrCodes.txt'
@@ -27,7 +28,7 @@ def QRCodeLoss(y_true, y_pred):
     # print('type of y_pred ' + type(y_pred))
     # map the nn output to strings
     map_pred = ''
-    for x in Y[y_pred.int()]:
+    for x in Y[y_pred.to(torch.int32)]:
         map_pred += output_mapping[x]
     qr = qrcode.QRCode(
         version=1,
@@ -69,7 +70,7 @@ read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')
 read_train_labels.close()
 print('Training the model')
-model.fit(x=X, y=np.asarray(list(range(0, 16000))), batch_size=128, epochs=100)
+model.fit(x=X, y=np.asarray(list(range(0, 16000))), batch_size=128, epochs=100, validation_split=.2)
 
 # testing
 X = load_my_data(test_data_path, 4000)
