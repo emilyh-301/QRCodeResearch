@@ -4,6 +4,9 @@ from tensorflow.keras.losses import Loss
 from mappings import output_mapping
 import numpy as np
 import torch
+from numba import jit, cuda
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data_path = '../data/train/qrCodes.txt'
@@ -52,6 +55,9 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
     classifier_activation=None,
 )
 
+# try to use the GPU
+tf.cuda()
+
 model.compile(
     optimizer='adagrad',
     loss=QRCodeLoss,
@@ -60,7 +66,7 @@ model.compile(
     weighted_metrics=None,
     run_eagerly=None,
     steps_per_execution=None,
-    jit_compile=None,
+    jit_compile=True,
 )
 model.save('my_qr_model')
 
