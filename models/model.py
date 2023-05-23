@@ -27,7 +27,7 @@ def QRCodeLoss(y_true, y_pred):
     # print('type of y_pred ' + type(y_pred))
     # map the nn output to strings
     map_pred = ''
-    for x in Y[y_pred.item()]:
+    for x in Y[y_pred.int()]:
         map_pred += output_mapping[x]
     qr = qrcode.QRCode(
         version=1,
