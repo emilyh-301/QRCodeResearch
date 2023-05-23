@@ -7,6 +7,7 @@ import torch
 from numba import jit, cuda
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data_path = '../data/train/qrCodes.txt'
@@ -56,7 +57,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
 )
 
 # try to use the GPU
-tf.cuda()
+# tf.cuda()
 
 model.compile(
     optimizer='adagrad',
