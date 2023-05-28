@@ -26,8 +26,8 @@ def QRCodeLoss(y_true, y_pred):
    @:param y_true: the input QR Code matrix
    @:param y_pred: index of Y as a Tensor, so we have to convert it
    '''
-    # print('shape of y_pred ' + y_pred.shape)
-    # print('type of y_pred ' + type(y_pred))
+    print('shape of y_pred ' + y_pred.shape)
+    print('type of y_pred ' + type(y_pred))
     # map the nn output to strings
     map_pred = ''
     for x in Y[int(y_pred)]:  # convert y_pred from a tensor to an int
