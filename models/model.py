@@ -28,8 +28,9 @@ def QRCodeLoss(y_true, y_pred):
    '''
 
     # index = 0
-    # print(y_pred.ref())
-    # print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    print(y_pred.ref())
+    print(y_pred.get_shape())
+    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
     # map the neural network prediction to a string
     map_pred = ''
