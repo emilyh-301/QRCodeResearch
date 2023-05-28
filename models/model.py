@@ -27,9 +27,13 @@ def QRCodeLoss(y_true, y_pred):
    @:param y_pred: index of Y as a Tensor, so we have to convert it
    '''
 
+    # Enable eager execution (optional, if not already enabled)
+    tf.compat.v1.enable_eager_execution()
+
+    index = y_pred.numpy() if tf.executing_eagerly() else y_pred.numpy()
     # map the nn output to strings
     map_pred = ''
-    for x in Y[y_pred.numpy()]:  # convert y_pred from a tensor to an int
+    for x in Y[index]:  # convert y_pred from a tensor to an int
         map_pred += output_mapping[x]
     qr = qrcode.QRCode(
         version=1,
