@@ -5,7 +5,7 @@ from mappings import output_mapping
 import numpy as np
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-# os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data_path = '../data/train/qrCodes.txt'
@@ -24,10 +24,14 @@ def load_my_data(path, num):
 def QRCodeLoss(y_true, y_pred):
     '''
    @:param y_true: the input QR Code matrix
-   @:param y_pred: index of Y as a Tensor, so we have to convert it
+   @:param y_pred: list of
    '''
 
-    index = tf.cast(tf.math.round(y_pred), dtype=tf.int32)
+    print(y_true)
+    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    print(y_pred)
+
+    index = 0
 
     # map the nn output to strings
     map_pred = ''
@@ -74,12 +78,12 @@ model.compile(
 model.save('my_qr_model')
 
 # training
-X = load_my_data(train_data_path, 16000)
+X = load_my_data(train_data_path, 16000)  # list of input QR codes
 read_train_labels = open(train_labels, 'r')
-Y = read_train_labels.read().split('\n')
+Y = read_train_labels.read().split('\n')  # the corresponding appended query string
 read_train_labels.close()
 print('Training the model')
-model.fit(x=X, y=np.asarray(list(range(0, 16000))), batch_size=128, epochs=100, validation_split=.2)
+model.fit(x=X, y=np.asarray(Y), batch_size=128, epochs=100, validation_split=.2)
 
 # testing
 X = load_my_data(test_data_path, 4000)
