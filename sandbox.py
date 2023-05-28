@@ -24,6 +24,6 @@ qr2 = qrcode.QRCode(
 qr2.add_data('https://h3turing.vmhost.psu.edu?1234')
 
 bce = BinaryCrossentropy(from_logits=True)
-loss = bce(qr1.get_matrix(), qr2.get_matrix()).numpy()
+loss = bce(qr1.get_matrix().astype(int), qr2.get_matrix().astype(int)).numpy()
 
 print(loss)
