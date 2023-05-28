@@ -28,7 +28,11 @@ def QRCodeLoss(y_true, y_pred):
    '''
 
     # Enable eager execution (optional, if not already enabled)
-    tf.compat.v1.enable_eager_execution()
+    # Check if eager execution is enabled
+    if tf.executing_eagerly():
+        print("Eager execution is enabled. $$$$$$$$$$$$$$$$$$$$$$$")
+    else:
+        print("Eager execution is not enabled. 0000000000000000000000")
 
     index = y_pred.numpy() if tf.executing_eagerly() else y_pred.numpy()
     # map the nn output to strings
