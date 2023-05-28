@@ -17,7 +17,7 @@ qr1.add_data('https://h3turing.vmhost.psu.edu?1234')
 print('type of qr matrix')
 print(type(qr1.get_matrix()[1][1]))
 
-qr1_matrix = [[int(value) for value in row] for row in qr1.get_matrix()]
+qr1_matrix = [[float(value) for value in row] for row in qr1.get_matrix()]
 
 print(qr1_matrix)
 
