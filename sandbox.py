@@ -24,6 +24,6 @@ print(qr1_matrix)
 
 
 bce = BinaryCrossentropy()
-loss = bce(qr1_matrix, qr1_matrix)
+loss = bce(qr1_matrix, qr1_matrix).numpy()
 
 print(loss)
