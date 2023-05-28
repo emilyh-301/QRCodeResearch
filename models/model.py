@@ -27,11 +27,7 @@ def QRCodeLoss(y_true, y_pred):
    @:param y_pred: index of Y as a Tensor, so we have to convert it
    '''
 
-    with tf.compat.v1.Session() as sess:
-        # Evaluate the tensor within the session
-        tensor_value = sess.run(y_pred)
-
-    index = int(y_pred)
+    index = tf.cast(tf.math.round(y_pred), dtype=tf.int32)
 
     # map the nn output to strings
     map_pred = ''
