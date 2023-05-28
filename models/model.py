@@ -23,13 +23,13 @@ def load_my_data(path, num):
 # my custom loss function
 def QRCodeLoss(y_true, y_pred):
     '''
-   @:param y_true: the input QR Code matrix
-   @:param y_pred: list of
+   @:param y_true: the correct query string to append
+   @:param y_pred: list of numbers output by the neural network
    '''
 
-    print(y_true)
+    print(y_true.numpy())
     print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    print(y_pred)
+    print(y_pred.numpy())
 
     index = 0
 
@@ -43,10 +43,12 @@ def QRCodeLoss(y_true, y_pred):
         box_size=1,
         border=0,
     )
+    qr2 = qr
+    qr2.add_data(input_url + y_pred)
     qr.add_data(input_url + map_pred)
     # pred_matrix = qr.get_matrix()
     cc = CategoricalCrossentropy(from_logits=True)
-    y_true = [[float(value) for value in row] for row in y_true]  # convert from booleans to floats for the loss function
+    y_true = [[float(value) for value in row] for row in qr2.get_matrix()]  # convert from booleans to floats for the loss function
     y_pred = [[float(value) for value in row] for row in qr.get_matrix()]
     return cc(y_true, y_pred).numpy()
 
