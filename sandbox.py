@@ -12,18 +12,21 @@ qr1 = qrcode.QRCode(
     box_size=1,
     border=0,
 )
-qr1.add_data('https://h3turing.vmhost.psu.edu?1234')
-
-print('type of qr matrix')
-print(type(qr1.get_matrix()[1][1]))
-
+qr1.add_data('https://h3turing.vmhost.psu.edu?1234nnnnn')
 qr1_matrix = [[float(value) for value in row] for row in qr1.get_matrix()]
 
-print(qr1_matrix)
+
+qr2 = qrcode.QRCode(
+    version=1,
+    error_correction=qrcode.constants.ERROR_CORRECT_L,
+    box_size=1,
+    border=0,
+)
+qr1.add_data('https://h3turing.vmhost.psu.edu?123456789')
+qr2_matrix = [[float(value) for value in row] for row in qr2.get_matrix()]
 
 
-
-bce = BinaryCrossentropy()
+bce = BinaryCrossentropy(from_logits=True)
 loss = bce(qr1_matrix, qr1_matrix).numpy()
 
 print(loss)
