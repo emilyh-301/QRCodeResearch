@@ -27,6 +27,6 @@ qr2_matrix = [[float(value) for value in row] for row in qr2.get_matrix()]
 
 
 bce = BinaryCrossentropy(from_logits=False)
-loss = bce(qr1_matrix, qr1_matrix).numpy()
+loss = bce(qr1_matrix, qr2_matrix).numpy()
 
 print(loss)
