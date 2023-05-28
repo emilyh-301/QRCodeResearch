@@ -28,13 +28,13 @@ def QRCodeLoss(y_true, y_pred):
    '''
 
     index = 0
-    print(y_pred.ref())
+    print(y_pred.ref()[1])
     print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
     # map the neural network prediction to a string
     map_pred = ''
-    for x in y_pred.ref():  # convert y_pred from a tensor to an int
-        map_pred += output_mapping[x]
+    for x in y_pred:  # convert y_pred from a tensor to an int
+        map_pred += output_mapping[x.ref()]
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
