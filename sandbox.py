@@ -22,7 +22,7 @@ qr2 = qrcode.QRCode(
     box_size=1,
     border=0,
 )
-qr1.add_data('https://h3turing.vmhost.psu.edu?123456789')
+qr2.add_data('https://h3turing.vmhost.psu.edu?123456789')
 qr2_matrix = [[float(value) for value in row] for row in qr2.get_matrix()]
 
 
