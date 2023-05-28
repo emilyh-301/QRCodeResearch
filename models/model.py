@@ -27,10 +27,6 @@ def QRCodeLoss(y_true, y_pred):
    @:param y_pred: list of numbers output by the neural network
    '''
 
-    print(y_true.numpy())
-    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    print(y_pred.numpy())
-
     index = 0
 
     # map the nn output to strings
