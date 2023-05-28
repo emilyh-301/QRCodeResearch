@@ -1,6 +1,7 @@
 import qrcode
 import tensorflow as tf
 from tensorflow.keras.losses import Loss
+from constants import input_url
 from mappings import output_mapping
 import numpy as np
 import torch
@@ -9,7 +10,6 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
-input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data_path = '../data/train/qrCodes.txt'
 train_labels = '../data/train/queryStrings.txt'
 test_data_path = '../data/test/qrCodes.txt'
