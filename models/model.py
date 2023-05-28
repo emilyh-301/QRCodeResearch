@@ -1,16 +1,13 @@
 import qrcode
 import tensorflow as tf
 from tensorflow.keras.losses import CategoricalCrossentropy
-
-import constants
 from mappings import output_mapping
 import numpy as np
-import torch
-# from numba import jit, cuda
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+# os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
+input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data_path = '../data/train/qrCodes.txt'
 train_labels = '../data/train/queryStrings.txt'
 test_data_path = '../data/test/qrCodes.txt'
@@ -41,7 +38,7 @@ def QRCodeLoss(y_true, y_pred):
         box_size=1,
         border=0,
     )
-    qr.add_data(constants.input_url + map_pred)
+    qr.add_data(input_url + map_pred)
     # pred_matrix = qr.get_matrix()
     cc = CategoricalCrossentropy(from_logits=True)
     y_true = [[float(value) for value in row] for row in y_true]
