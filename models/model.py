@@ -27,21 +27,12 @@ def QRCodeLoss(y_true, y_pred):
    @:param y_pred: index of Y as a Tensor, so we have to convert it
    '''
 
-    # Enable eager execution (optional, if not already enabled)
-    # Check if eager execution is enabled
-    if tf.executing_eagerly():
-        print("Eager execution is enabled. $$$$$$$$$$$$$$$$$$$$$$$")
-    else:
-        print("Eager execution is not enabled. 0000000000000000000000")
+    with tf.compat.v1.Session() as sess:
+        # Evaluate the tensor within the session
+        tensor_value = sess.run(y_pred)
 
-    tf.compat.v1.enable_eager_execution()
+    index = int(y_pred)
 
-    if tf.executing_eagerly():
-        print("Eager execution is enabled. $$$$$$$$$$$$$$$$$$$$$$$")
-    else:
-        print("Eager execution is not enabled. 0000000000000000000000")
-
-    index = y_pred.numpy() if tf.executing_eagerly() else y_pred.numpy()
     # map the nn output to strings
     map_pred = ''
     for x in Y[index]:  # convert y_pred from a tensor to an int
