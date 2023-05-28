@@ -28,5 +28,5 @@ qr2_matrix = [[float(value) for value in row] for row in qr2.get_matrix()]
 
 bce = CategoricalCrossentropy(from_logits=True)
 loss = bce(qr1_matrix, qr2_matrix).numpy()
-# 3.439
+
 print(loss)

@@ -1,7 +1,8 @@
 import qrcode
 import tensorflow as tf
-from tensorflow.keras.losses import Loss
-from constants import input_url
+from tensorflow.keras.losses import CategoricalCrossentropy
+
+import constants
 from mappings import output_mapping
 import numpy as np
 import torch
@@ -40,9 +41,12 @@ def QRCodeLoss(y_true, y_pred):
         box_size=1,
         border=0,
     )
-    qr.add_data(input_url + map_pred)
+    qr.add_data(constants.input_url + map_pred)
     # pred_matrix = qr.get_matrix()
-    return Loss.BinaryCrossentropy(y_true, qr.get_matrix())
+    cc = CategoricalCrossentropy(from_logits=True)
+    y_true = [[float(value) for value in row] for row in y_true]
+    y_pred = [[float(value) for value in row] for row in qr.get_matrix()]
+    return cc(y_true, y_pred).numpy()
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
