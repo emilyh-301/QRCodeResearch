@@ -29,9 +29,9 @@ def QRCodeLoss(y_true, y_pred):
 
     index = 0
 
-    # map the nn output to strings
+    # map the neural network prediction to a string
     map_pred = ''
-    for x in Y[index]:  # convert y_pred from a tensor to an int
+    for x in y_pred:  # convert y_pred from a tensor to an int
         map_pred += output_mapping[x]
     qr = qrcode.QRCode(
         version=1,
@@ -40,8 +40,8 @@ def QRCodeLoss(y_true, y_pred):
         border=0,
     )
     qr2 = qr
-    qr2.add_data(input_url + y_pred)
-    qr.add_data(input_url + map_pred)
+    qr2.add_data(input_url + map_pred)
+    qr.add_data(input_url + y_true)
     # pred_matrix = qr.get_matrix()
     cc = CategoricalCrossentropy(from_logits=True)
     y_true = [[float(value) for value in row] for row in qr2.get_matrix()]  # convert from booleans to floats for the loss function
