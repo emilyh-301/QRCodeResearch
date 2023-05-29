@@ -19,7 +19,7 @@ l = [[1,2,3], [4,5,6]]
 
 n = np.array(l)
 
-print(n.get_shape())
+print(n.shape)
 print(type(n))
 print(n.ref())
 for x in n:
