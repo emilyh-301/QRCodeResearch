@@ -1,6 +1,6 @@
 import qrcode
 import numpy as np
-
+import tensorflow as tf
 
 # tf.test.is_gpu_available( cuda_only=False, min_cuda_compute_capability=None )
 
@@ -17,9 +17,9 @@ qr1_matrix = [[float(value) for value in row] for row in qr1.get_matrix()]
 
 l = [[1,2,3], [4,5,6]]
 
-n = np.array(l)
+n = tf.Tensor(l)
 
-print(n.shape)
+#print(n.shape)
 print(type(n))
 print(n.ref())
 for x in n:
