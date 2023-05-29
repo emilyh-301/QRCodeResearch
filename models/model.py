@@ -1,9 +1,10 @@
 import qrcode
 import tensorflow as tf
 from tensorflow.keras.losses import CategoricalCrossentropy
-from mappings import output_mapping_tensor
+from mappings import output_mapping
 import numpy as np
 import os
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
@@ -20,6 +21,12 @@ def load_my_data(path, num):
     file.close()
     return data
 
+
+keys = list(output_mapping.keys())
+values = [output_mapping[k] for k in keys]
+table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(keys, values), default_value=-1)
+
+
 # my custom loss function
 def QRCodeLoss(y_true, y_pred):
     '''
@@ -28,12 +35,13 @@ def QRCodeLoss(y_true, y_pred):
    '''
 
     # map the neural network prediction to a string
-    map_pred = []
-    for pred in y_pred:  # y_pred is a Tensor obj
-        m = ''
-        for x in pred:
-            m += output_mapping_tensor[x.ref()]
-        map_pred.append(m)
+    map_pred = table.lookup(y_pred)
+    # for pred in y_pred:  # y_pred is a Tensor obj
+    #     m = ''
+    #     for x in pred:
+    #         # KeyError: <Reference wrapping <tf.Tensor 'QRCodeLoss/while/while/TensorArrayV2Read/TensorListGetItem:0' shape=() dtype=float32>>
+    #         m += output_mapping_tensor[x.ref()]
+    #     map_pred.append(m)
 
     qr = qrcode.QRCode(
         version=1,
@@ -54,7 +62,8 @@ def QRCodeLoss(y_true, y_pred):
         new_y_true.append(qr.get_matrix())
         qr.clear()
 
-    y_true = [[[float(value) for value in row] for row in matrix] for matrix in new_y_true]  # convert from booleans to floats for the loss function
+    y_true = [[[float(value) for value in row] for row in matrix] for matrix in
+              new_y_true]  # convert from booleans to floats for the loss function
     y_pred = [[[float(value) for value in row] for row in matrix] for matrix in new_y_pred]
 
     cc = CategoricalCrossentropy(from_logits=True)
@@ -103,5 +112,3 @@ read_test_labels.close()
 print('Evaluate on test data')
 results = model.evaluate(x=X, y=np.asarray(y_test), batch_size=128)
 print('test loss, test acc:', results)
-
-
