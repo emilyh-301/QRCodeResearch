@@ -17,7 +17,7 @@ qr1_matrix = [[float(value) for value in row] for row in qr1.get_matrix()]
 
 l = [[1,2,3], [4,5,6]]
 
-n = tf.Tensor(l)
+n = tf.constant(l)
 
 #print(n.shape)
 print(type(n))
