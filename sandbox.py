@@ -23,4 +23,5 @@ n = tf.constant(l)
 print(type(n))
 print(n.ref())
 for x in n:
-    print(x.ref())
+    for y in x:
+        print(y)
