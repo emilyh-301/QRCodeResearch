@@ -41,13 +41,23 @@ def QRCodeLoss(y_true, y_pred):
         box_size=1,
         border=0,
     )
-    qr2 = qr
-    qr2.add_data(input_url + map_pred)
-    qr.add_data(input_url + y_true)
-    # pred_matrix = qr.get_matrix()
+
+    new_y_pred = []
+    for pred in map_pred:
+        qr.add_data(input_url + pred)
+        new_y_pred.append(qr.get_matrix())
+        qr.clear()
+
+    new_y_true = []
+    for true in y_true:
+        qr.add_data(input_url + true)
+        new_y_true.append(qr.get_matrix())
+        qr.clear()
+
+    y_true = [[[float(value) for value in row] for row in matrix] for matrix in new_y_true]  # convert from booleans to floats for the loss function
+    y_pred = [[[float(value) for value in row] for row in matrix] for matrix in new_y_pred]
+
     cc = CategoricalCrossentropy(from_logits=True)
-    y_true = [[float(value) for value in row] for row in qr2.get_matrix()]  # convert from booleans to floats for the loss function
-    y_pred = [[float(value) for value in row] for row in qr.get_matrix()]
     return cc(y_true, y_pred).numpy()
 
 
