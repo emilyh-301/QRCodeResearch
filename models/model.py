@@ -26,7 +26,7 @@ keys = list(output_mapping.keys())
 values = [output_mapping[k] for k in keys]
 table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(keys, values), default_value='-1')
 print(table.lookup)
-print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
 # my custom loss function
 def QRCodeLoss(y_true, y_pred):
@@ -68,7 +68,7 @@ def QRCodeLoss(y_true, y_pred):
     y_pred = [[[float(value) for value in row] for row in matrix] for matrix in new_y_pred]
 
     cc = CategoricalCrossentropy(from_logits=True)
-    return cc(y_true, y_pred).numpy()
+    return cc(y_true, y_pred)
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
