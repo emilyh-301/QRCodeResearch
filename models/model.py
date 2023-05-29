@@ -32,7 +32,7 @@ def QRCodeLoss(y_true, y_pred):
     for pred in y_pred:  # y_pred is a Tensor obj
         m = ''
         for x in pred:
-            m += output_mapping[x]
+            m += output_mapping[x.ref()]
         map_pred.append(m)
 
     qr = qrcode.QRCode(
