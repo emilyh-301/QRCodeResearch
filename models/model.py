@@ -25,7 +25,7 @@ def load_my_data(path, num):
 keys = list(output_mapping.keys())
 values = [output_mapping[k] for k in keys]
 table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(keys, values), default_value='-1')
-print(table)
+print(table.lookup)
 print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
 # my custom loss function
@@ -36,7 +36,7 @@ def QRCodeLoss(y_true, y_pred):
    '''
 
     # map the neural network prediction to a string
-    map_pred = table.lookup(y_pred)
+    map_pred = table.lookup(tf.cast(y_pred, dtype=tf.int32))
     # for pred in y_pred:  # y_pred is a Tensor obj
     #     m = ''
     #     for x in pred:
