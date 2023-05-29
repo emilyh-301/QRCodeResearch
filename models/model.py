@@ -1,7 +1,7 @@
 import qrcode
 import tensorflow as tf
 from tensorflow.keras.losses import CategoricalCrossentropy
-from mappings import output_mapping
+from mappings import output_mapping_tensor
 import numpy as np
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -32,7 +32,7 @@ def QRCodeLoss(y_true, y_pred):
     for pred in y_pred:  # y_pred is a Tensor obj
         m = ''
         for x in pred:
-            m += output_mapping[x.ref()]
+            m += output_mapping_tensor[x.ref()]
         map_pred.append(m)
 
     qr = qrcode.QRCode(
