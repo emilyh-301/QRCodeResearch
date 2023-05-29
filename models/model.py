@@ -68,7 +68,9 @@ def QRCodeLoss(y_true, y_pred):
     y_pred = [[[float(value) for value in row] for row in matrix] for matrix in new_y_pred]
 
     cc = CategoricalCrossentropy(from_logits=True)
-    return cc(y_true, y_pred)
+    result = cc(y_true, y_pred)
+    print(result)
+    return result
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
@@ -103,7 +105,7 @@ read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')  # the corresponding appended query string
 read_train_labels.close()
 print('Training the model')
-model.fit(x=X, y=np.asarray(Y), batch_size=128, epochs=100, validation_split=.2)
+history = model.fit(x=X, y=np.asarray(Y), batch_size=128, epochs=100, validation_split=.2)
 
 # testing
 X = load_my_data(test_data_path, 4000)
