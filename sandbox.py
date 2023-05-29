@@ -1,6 +1,6 @@
 import qrcode
-import tensorflow as tf
-from tensorflow.keras.losses import CategoricalCrossentropy
+import numpy as np
+
 
 # tf.test.is_gpu_available( cuda_only=False, min_cuda_compute_capability=None )
 
@@ -15,18 +15,12 @@ qr1 = qrcode.QRCode(
 qr1.add_data('https://h3turing.vmhost.psu.edu?1234nnnnn')
 qr1_matrix = [[float(value) for value in row] for row in qr1.get_matrix()]
 
+l = [[1,2,3], [4,5,6]]
 
-qr2 = qrcode.QRCode(
-    version=1,
-    error_correction=qrcode.constants.ERROR_CORRECT_L,
-    box_size=1,
-    border=0,
-)
-qr2.add_data('https://h3turing.vmhost.psu.edu?123456789')
-qr2_matrix = [[float(value) for value in row] for row in qr2.get_matrix()]
+n = np.array(l)
 
-
-bce = CategoricalCrossentropy(from_logits=True)
-loss = bce(qr1_matrix, qr2_matrix).numpy()
-
-print(loss)
+print(n.get_shape())
+print(type(n))
+print(n.ref())
+for x in n:
+    print(x)

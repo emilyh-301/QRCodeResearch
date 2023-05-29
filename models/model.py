@@ -24,13 +24,8 @@ def load_my_data(path, num):
 def QRCodeLoss(y_true, y_pred):
     '''
    @:param y_true: the correct query string to append
-   @:param y_pred: list of numbers output by the neural network
+   @:param y_pred: list of numbers output by the neural network, list length = batch size
    '''
-
-    # index = 0
-    print(y_pred.ref())
-    print(y_pred.get_shape())
-    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
 
     # map the neural network prediction to a string
     map_pred = ''
@@ -79,7 +74,7 @@ model.compile(
 model.save('my_qr_model')
 
 # training
-X = load_my_data(train_data_path, 16000)  # list of input QR codes
+X = load_my_data(train_data_path, 16000)  # numpy array of input QR codes
 read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')  # the corresponding appended query string
 read_train_labels.close()
@@ -92,7 +87,7 @@ read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
 read_test_labels.close()
 print('Evaluate on test data')
-results = model.evaluate(x=X, y=np.asarray(list(range(0, 4000))), batch_size=128)
+results = model.evaluate(x=X, y=np.asarray(y_test), batch_size=128)
 print('test loss, test acc:', results)
 
 
