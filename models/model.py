@@ -25,8 +25,7 @@ def load_my_data(path, num):
 keys = list(output_mapping.keys())
 values = [output_mapping[k] for k in keys]
 table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(keys, values), default_value='-1')
-print(table.lookup)
-print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+
 
 # my custom loss function
 def QRCodeLoss(y_true, y_pred):
@@ -69,6 +68,7 @@ def QRCodeLoss(y_true, y_pred):
 
     cc = CategoricalCrossentropy(from_logits=True)
     result = cc(y_true, y_pred)
+    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     print(result)
     return result
 
