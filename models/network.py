@@ -1,6 +1,6 @@
 import qrcode
 import tensorflow as tf
-from tensorflow.keras.losses import LogLoss
+from tensorflow.keras.losses import CategoricalCrossentropy
 from mappings import output_mapping
 import numpy as np
 import os
@@ -9,7 +9,6 @@ import constants
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
-input_url = 'https://h3turing.vmhost.psu.edu?'
 train_data_path = '../data/train/qrCodes.txt'
 train_labels = '../data/train/queryStrings.txt'
 test_data_path = '../data/test/qrCodes.txt'
@@ -18,6 +17,7 @@ test_labels = '../data/test/queryStrings.txt'
 BATCH_SIZE = 128
 EPOCHS = 100
 
+# this is just for loading the qr code matrices that will be used as X input
 def load_my_data(path, num):
     file = open(path, 'r')
     data = np.loadtxt(file, delimiter=',', ndmin=2).reshape(num, 33, 33)
@@ -38,7 +38,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
     input_shape=(33, 33, 1),
     pooling=None,
     classes=180,
-    classifier_activation=None,
+    classifier_activation=None,  # TODO: try softmax
 )
 
 # try to use the GPU
@@ -46,7 +46,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
 
 model.compile(
     optimizer='adagrad',
-    loss='TODO',
+    loss=CategoricalCrossentropy,
     metrics='acc',
     loss_weights=None,
     weighted_metrics=None,

@@ -5,6 +5,8 @@ import constants
 
 alphanumeric = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 
+# saves 30 char query strings in base 64 binary to train and test files
+
 # 20,000 total
 # 16,000 train
 #  4,000 test
@@ -18,6 +20,7 @@ def produce_amount_keys(amount_of_keys, length=30):
     count = 0
     for key in keys:
         binary = string_to_base64_binary(key)
+        # 20% of the data will be testing data, the other 80% will be training data
         if count % 5 == 0:
             test.write(binary + '\n')
         else:

@@ -1,6 +1,5 @@
 import qrcode
-import numpy as np
-import tensorflow as tf
+import base64
 
 # tf.test.is_gpu_available( cuda_only=False, min_cuda_compute_capability=None )
 
@@ -15,13 +14,21 @@ qr1 = qrcode.QRCode(
 qr1.add_data('https://h3turing.vmhost.psu.edu?1234nnnnn')
 qr1_matrix = [[float(value) for value in row] for row in qr1.get_matrix()]
 
-l = [[1,2,3], [4,5,6]]
+def string_to_base64_binary(input_string):
+    string_bytes = input_string.encode('utf-8')
+    base64_bytes = base64.b64encode(string_bytes)
+    binary = bin(int.from_bytes(base64_bytes, 'big'))
+    return binary
 
-n = tf.constant(l)
+def binary_to_string(binary):
+    base64_bytes = int(binary, 2).to_bytes((len(binary) + 7) // 8, 'big')
+    string = base64.b64decode(base64_bytes).decode('utf-8')
+    return string
 
-#print(n.shape)
-print(type(n))
-print(n.ref())
-for x in n:
-    for y in x:
-        print(y)
+b = string_to_base64_binary('emily')
+
+print(b)
+
+s = binary_to_string(b)
+print(s)
+
