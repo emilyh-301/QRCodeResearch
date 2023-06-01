@@ -47,7 +47,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
 
 model.compile(
     optimizer='adagrad',
-    loss=CategoricalCrossentropy,
+    loss=tf.keras.losses.CategoricalCrossentropy(),
     metrics='acc',
     loss_weights=None,
     weighted_metrics=None,
