@@ -68,7 +68,7 @@ for y in Y:
 Y = newY
 read_train_labels.close()
 print('Training the model')
-history = model.fit(x=X, y=np.asarray(Y), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
+history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
 
 # Y NEEDS TO BE AN ARRAY OF INTS
 
@@ -83,5 +83,5 @@ for y in y_test:
 y_test = newY
 read_test_labels.close()
 print('Evaluate on test data')
-results = model.evaluate(x=X, y=np.asarray(y_test), batch_size=BATCH_SIZE)
+results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32), batch_size=BATCH_SIZE)
 print('test loss, test acc:', results)
