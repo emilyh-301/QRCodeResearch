@@ -66,7 +66,7 @@ for y in Y:
     y = y[2:]
     newY.append([int(char) for char in y])
 Y = newY
-
+print(Y)
 read_train_labels.close()
 print('Training the model')
 history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
