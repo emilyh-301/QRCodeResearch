@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.losses import CategoricalCrossentropy
 import numpy as np
 import os
-from models import constants
+import constants
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -17,6 +17,11 @@ EPOCHS = 100
 
 # this is just for loading the qr code matrices that will be used as X input
 def load_my_data(path, num):
+    '''
+    :param path: the path to your data
+    :param num: the number of data
+    :return: nparray of your data in the shape (num, 33, 33)
+    '''
     file = open(path, 'r')
     data = np.loadtxt(file, delimiter=',', ndmin=2).reshape(num, 33, 33)
     file.close()
