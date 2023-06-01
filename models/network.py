@@ -63,6 +63,7 @@ read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')  # the corresponding appended query string
 newY = []
 for y in Y:
+    y = y[2:]
     newY.append([int(char) for char in y])
 Y = newY
 read_train_labels.close()
@@ -77,6 +78,7 @@ read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
 newY = []
 for y in y_test:
+    y = y[2:]
     newY.append([int(char) for char in y])
 y_test = newY
 read_test_labels.close()
