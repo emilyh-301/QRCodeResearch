@@ -68,7 +68,7 @@ for y in Y:
 Y = newY
 read_train_labels.close()
 print('Training the model')
-history = model.fit(x=X, y=Y, batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
+history = model.fit(x=X, y=np.asarray(Y), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
 
 # Y NEEDS TO BE AN ARRAY OF INTS
 
