@@ -1,10 +1,8 @@
-import qrcode
 import tensorflow as tf
 from tensorflow.keras.losses import CategoricalCrossentropy
-from mappings import output_mapping
 import numpy as np
 import os
-import constants
+from models import constants
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
