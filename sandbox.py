@@ -32,3 +32,12 @@ print(b)
 s = binary_to_string(b)
 print(s)
 
+
+Y = ['1234567890', '1234567980']
+newY = []
+for y in Y:
+    newY.append([int(char) for char in y])
+print(newY)
+
+
+

@@ -61,14 +61,24 @@ model.compile(
 X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
 read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')  # the corresponding appended query string
+newY = []
+for y in Y:
+    newY.append([int(char) for char in y])
+Y = newY
 read_train_labels.close()
 print('Training the model')
 history = model.fit(x=X, y=np.asarray(Y), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
+
+# Y NEEDS TO BE AN ARRAY OF INTS
 
 # testing
 X = load_my_data(test_data_path, constants.num_of_test_data)
 read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
+newY = []
+for y in y_test:
+    newY.append([int(char) for char in y])
+y_test = newY
 read_test_labels.close()
 print('Evaluate on test data')
 results = model.evaluate(x=X, y=np.asarray(y_test), batch_size=BATCH_SIZE)
