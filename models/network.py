@@ -64,7 +64,6 @@ Y = read_train_labels.read().split('\n')  # the corresponding appended query str
 Y = Y[:-1]  # remove last element because of trailing new line
 newY = []
 for y in Y:
-    y = y[2:]  # skip the first 2 chars because binary numbers have 0b at the beginning
     newY.append([int(char) for char in y])
 Y = newY
 print(Y[1])
@@ -81,7 +80,6 @@ y_test = read_test_labels.read().split('\n')
 y_test = y_test[:-1]
 newY = []
 for y in y_test:
-    y = y[2:]
     newY.append([int(char) for char in y])
 y_test = newY
 read_test_labels.close()
