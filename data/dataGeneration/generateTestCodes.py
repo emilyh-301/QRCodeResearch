@@ -10,11 +10,10 @@ binary_to_char = {value: key for key, value in char_to_binary.items()}
 
 def binary_to_string(binary):
     """
-    :param binary: a string in the form 0b(0,1)*
+    :param binary: a string of 0 and 1
     :return: the corresponding alphanumeric string
     """
     string = ''
-    binary = binary[2:]
     for x in range(0, len(binary)-6, 6):
         b = binary[x:x+6]
         string += binary_to_char[b]
