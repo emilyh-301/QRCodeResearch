@@ -42,7 +42,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
     input_shape=(33, 33, 1),
     pooling=None,
     classes=180,
-    classifier_activation=None,  # TODO: try softmax
+    classifier_activation='softmax',  # TODO: try softmax
 )
 
 model.compile(
