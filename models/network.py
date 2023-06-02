@@ -61,6 +61,7 @@ model.compile(
 X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
 read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')  # the corresponding appended query string
+Y = Y[:-1]  # remove last element because of trailing new line
 newY = []
 for y in Y:
     y = y[2:]
@@ -77,6 +78,7 @@ history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=B
 X = load_my_data(test_data_path, constants.num_of_test_data)
 read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
+y_test = y_test[:-1]
 newY = []
 for y in y_test:
     y = y[2:]
