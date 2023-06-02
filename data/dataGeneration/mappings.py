@@ -1,4 +1,4 @@
-output_mapping = {
+char_to_binary = {
     'A': '000000',
     'B': '000001',
     'C': '000010',
