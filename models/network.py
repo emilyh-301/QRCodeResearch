@@ -64,10 +64,10 @@ Y = read_train_labels.read().split('\n')  # the corresponding appended query str
 Y = Y[:-1]  # remove last element because of trailing new line
 newY = []
 for y in Y:
-    y = y[2:]
+    y = y[2:]  # skip the first 2 chars because binary numbers have 0b at the beginning
     newY.append([int(char) for char in y])
 Y = newY
-print(Y)
+print(Y[1])
 read_train_labels.close()
 print('Training the model')
 history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
