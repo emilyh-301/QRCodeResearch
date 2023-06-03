@@ -69,7 +69,7 @@ Y = newY
 read_train_labels.close()
 print('Training the model')
 history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-# model.save('my_qr_network2') TODO: save this later
+# model.save('my_qr_network3') TODO: save this later
 
 # testing
 X = load_my_data(test_data_path, constants.num_of_test_data)
@@ -84,6 +84,6 @@ read_test_labels.close()
 print('Evaluate on test data')
 results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
 print('test loss, test acc:', results)
-results_file = open('results_network2.txt', 'a+')
+results_file = open('results_network3.txt', 'a+')
 results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
 results_file.close()
