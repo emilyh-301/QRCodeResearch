@@ -30,7 +30,7 @@ def load_my_data(path, num):
     return data
 
 
-def _create_model(opt='adam', ha='tanh', oa='sigmoid') -> models.Sequential:
+def _create_model(opt='adam', ha='relu', oa='sigmoid') -> models.Sequential:
     hidden_activation = ha
     output_activation = oa
     optimizer = opt
