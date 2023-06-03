@@ -12,7 +12,7 @@ train_labels = '../data/train/queryStrings.txt'
 test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
-BATCH_SIZE = 100
+BATCH_SIZE = 32
 EPOCHS = 100
 
 
@@ -55,7 +55,6 @@ model.compile(
     steps_per_execution=None,
     jit_compile=None,
 )
-# model.save('my_qr_network') TODO: fix this TypeError: LossFunctionWrapper.get_config() missing 1 required positional argument: 'self'
 
 # training
 X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
@@ -70,8 +69,7 @@ print(Y[1])
 read_train_labels.close()
 print('Training the model')
 history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
-
-# Y NEEDS TO BE AN ARRAY OF INTS
+# model.save('my_qr_network') TODO: save this later
 
 # testing
 X = load_my_data(test_data_path, constants.num_of_test_data)
@@ -86,3 +84,6 @@ read_test_labels.close()
 print('Evaluate on test data')
 results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32), batch_size=BATCH_SIZE)
 print('test loss, test acc:', results)
+results_file = open('results_network.txt', 'a')
+results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
+results_file.close()
