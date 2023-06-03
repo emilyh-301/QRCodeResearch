@@ -3,7 +3,7 @@ import numpy as np
 import os
 import constants
 from tensorflow.keras import losses, models
-from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
+from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -42,9 +42,13 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     model.add(Dense(360, activation=hidden_activation))
     #model.add(MaxPooling2D(pool_size=(2, 2)))
     # third layer
+    model.add(Dropout(.25))
+    model.add(Dense(1440, activation=hidden_activation))
+    model.add(Dropout(.25))
+    # forth layer
     model.add(Dense(360, activation=hidden_activation))
     # output layer
-    model.add(Flatten())
+    #model.add(Flatten())
     model.add(Dense(180, activation=output_activation))
     # compile
     model.compile(
@@ -68,8 +72,8 @@ for y in Y:
 Y = newY
 read_train_labels.close()
 print('Training the model')
-history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-# model.save('my_qr_network3') TODO: save this later
+history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
+model.save('my_qr_network3')  # TODO: save this later
 
 # testing
 X = load_my_data(test_data_path, constants.num_of_test_data)
