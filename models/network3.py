@@ -42,7 +42,7 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     model.add(Dense(360, activation=hidden_activation))
     #model.add(MaxPooling2D(pool_size=(2, 2)))
     # third layer
-    model.add(Conv2D(360, activation=hidden_activation))
+    model.add(Dense(360, activation=hidden_activation))
     # output layer
     model.add(Flatten())
     model.add(Dense(180, activation=output_activation))
