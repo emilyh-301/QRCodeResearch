@@ -48,7 +48,7 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     # forth layer
     model.add(Dense(360, activation=hidden_activation))
     # output layer
-    #model.add(Flatten())
+    model.add(Flatten())
     model.add(Dense(180, activation=output_activation))
     # compile
     model.compile(
