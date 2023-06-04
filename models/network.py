@@ -12,7 +12,7 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 32
-EPOCHS = 50
+EPOCHS = 20
 
 
 def load_my_data(path, num):
@@ -55,6 +55,8 @@ model.compile(
     jit_compile=None,
 )
 
+model = tf.keras.models.load_model('my_qr_network')
+
 # training
 X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
 read_train_labels = open(train_labels, 'r')
@@ -80,8 +82,10 @@ for y in y_test:
 y_test = newY
 read_test_labels.close()
 print('Evaluate on test data')
-results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
-print('test loss, test acc:', results)
-results_file = open('results_network.txt', 'a')
-results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
-results_file.close()
+predictions = model.predict(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
+# print('test loss, test acc:', results)
+# results_file = open('results_network.txt', 'a')
+# results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
+# results_file.close()
+
+print(predictions[0])
