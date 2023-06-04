@@ -12,7 +12,7 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 32
-EPOCHS = 100
+EPOCHS = 50
 
 
 def load_my_data(path, num):
