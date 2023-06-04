@@ -55,7 +55,7 @@ model.compile(
     jit_compile=None,
 )
 
-model = tf.keras.models.load_model('my_qr_network')
+model = tf.saved_model.load('my_qr_network')
 
 # training
 X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
