@@ -55,22 +55,20 @@ model.compile(
     jit_compile=None,
 )
 
-model = tf.saved_model.load('my_qr_network')
-
 
 # training
-# X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
-# read_train_labels = open(train_labels, 'r')
-# Y = read_train_labels.read().split('\n')  # the corresponding appended query string
-# Y = Y[:-1]  # remove last element because of trailing new line
-# newY = []
-# for y in Y:
-#     newY.append([int(char) for char in y])
-# Y = newY
-# read_train_labels.close()
-# print('Training the model')
-# history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-# model.save('my_qr_network')
+X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
+read_train_labels = open(train_labels, 'r')
+Y = read_train_labels.read().split('\n')  # the corresponding appended query string
+Y = Y[:-1]  # remove last element because of trailing new line
+newY = []
+for y in Y:
+    newY.append([int(char) for char in y])
+Y = newY
+read_train_labels.close()
+print('Training the model')
+history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
+model.save('my_qr_network')
 
 # testing
 X = load_my_data(test_data_path, constants.num_of_test_data)
