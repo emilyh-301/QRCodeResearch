@@ -81,7 +81,8 @@ for y in y_test:
 y_test = newY
 read_test_labels.close()
 print('Evaluate on test data')
-predictions = model.predict(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
+predictions = model.predict(x=X)
+# results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
 # print('test loss, test acc:', results)
 # results_file = open('results_network.txt', 'a')
 # results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
