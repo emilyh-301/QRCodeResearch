@@ -41,12 +41,12 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
     input_shape=(33, 33, 1),
     pooling=None,
     classes=180,
-    classifier_activation='softmax',  # TODO: try softmax
+    classifier_activation='sigmoid',  # TODO: try sigmoid
 )
 
 model.compile(
     optimizer='adagrad',
-    loss=tf.keras.losses.CategoricalCrossentropy(),
+    loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
     metrics='acc',
     loss_weights=None,
     weighted_metrics=None,
@@ -67,7 +67,7 @@ Y = newY
 read_train_labels.close()
 print('Training the model')
 history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-# model.save('my_qr_network') TODO: save this later
+model.save('my_qr_network')
 
 # testing
 X = load_my_data(test_data_path, constants.num_of_test_data)

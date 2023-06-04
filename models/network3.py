@@ -42,10 +42,6 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     model.add(Dense(360, activation=hidden_activation))
     #model.add(MaxPooling2D(pool_size=(2, 2)))
     # third layer
-    model.add(Dropout(.25))
-    model.add(Dense(720, activation=hidden_activation))
-    model.add(Dropout(.25))
-    # forth layer
     model.add(Dense(360, activation=hidden_activation))
     # output layer
     model.add(Flatten())
@@ -53,7 +49,7 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     # compile
     model.compile(
         optimizer=optimizer,
-        loss=tf.keras.losses.CategoricalCrossentropy(),
+        loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
         metrics=['accuracy']
     )
     return model
@@ -73,7 +69,7 @@ Y = newY
 read_train_labels.close()
 print('Training the model')
 history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
-model.save('my_qr_network3')  # TODO: save this later
+model.save('my_qr_network3')
 
 # testing
 X = load_my_data(test_data_path, constants.num_of_test_data)

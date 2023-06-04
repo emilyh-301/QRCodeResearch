@@ -37,14 +37,12 @@ def _create_model(opt='adam', ha='relu', oa='sigmoid') -> models.Sequential:
     model = models.Sequential()
     # first layer
     model.add(Dense(180, activation=hidden_activation, input_shape=(33, 33, 1)))
-    #model.add(MaxPooling2D(pool_size=(2, 2)))
     # second layer
     model.add(Dense(360, activation=hidden_activation))
-    #model.add(MaxPooling2D(pool_size=(2, 2)))
     # third layer
-    model.add(Dropout(.25))
+    # model.add(Dropout(.25))
     model.add(Dense(720, activation=hidden_activation))
-    model.add(Dropout(.25))
+    # model.add(Dropout(.25))
     # forth layer
     model.add(Dense(360, activation=hidden_activation))
     # output layer
@@ -53,7 +51,7 @@ def _create_model(opt='adam', ha='relu', oa='sigmoid') -> models.Sequential:
     # compile
     model.compile(
         optimizer=optimizer,
-        loss=tf.keras.losses.CategoricalCrossentropy(),
+        loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
         metrics=['accuracy']
     )
     return model
