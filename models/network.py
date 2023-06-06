@@ -39,7 +39,7 @@ def round_output(x):
             else:
                 new_row.append(0)
         output.append(new_row)
-    return tf.convert_to_tensor(output, dtype=tf.int32)
+    return tf.convert_to_tensor(output, dtype=tf.float32)
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
