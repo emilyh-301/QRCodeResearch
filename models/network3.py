@@ -31,9 +31,16 @@ def load_my_data(path, num):
 
 
 def round_output(x):
-    if x >= .5:
-        return 1
-    return 0
+    output = []
+    for row in x:
+        new_row = []
+        for col in row:
+            if col >= .5:
+                new_row.append(1)
+            else:
+                new_row.append(0)
+        output.append(new_row)
+    return tf.convert_to_tensor(output, dtype=tf.int32)
 
 
 def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
