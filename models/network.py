@@ -28,9 +28,10 @@ def load_my_data(path, num):
     return data
 
 
-# keys = list(output_mapping.keys())
-# values = [output_mapping[k] for k in keys]
-# table = tf.lookup.StaticHashTable(tf.lookup.KeyValueTensorInitializer(keys, values), default_value='-1')
+def round_output(x):
+    if x >= .5:
+        return 1
+    return 0
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
@@ -41,7 +42,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
     input_shape=(33, 33, 1),
     pooling=None,
     classes=180,
-    classifier_activation='sigmoid',  # TODO: try sigmoid
+    classifier_activation=round_output,
 )
 
 model.compile(

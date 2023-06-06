@@ -30,9 +30,15 @@ def load_my_data(path, num):
     return data
 
 
+def round_output(x):
+    if x >= .5:
+        return 1
+    return 0
+
+
 def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     hidden_activation = ha
-    output_activation = oa
+    output_activation = round_output
     optimizer = opt
     model = models.Sequential()
     # first layer
