@@ -48,7 +48,7 @@ print(len(bo))
 
 from keras import backend as K
 def round_output(x):
-    out = math.floor(K.sigmoid(x) + .5)
+    return math.floor(K.sigmoid(x) + .5)
 
 o = [[.4,.7,.2], [0,.9,.1]]
 
