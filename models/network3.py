@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import os
+from keras.layers import Lambda
 import constants
 from tensorflow.keras import losses, models
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout
@@ -38,7 +39,7 @@ def round_output(x):
 
 def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     hidden_activation = ha
-    output_activation = round_output
+    output_activation = oa
     optimizer = opt
     model = models.Sequential()
     # first layer
@@ -52,6 +53,13 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     # output layer
     model.add(Flatten())
     model.add(Dense(180, activation=output_activation))
+
+    # Define a custom output layer that applies thresholding
+    def custom_output(x):
+        return tf.cast(tf.math.greater_equal(x, .5), tf.int32)
+
+    model.add(Lambda(custom_output, name='binary_output'))  # Add the custom output layer
+
     # compile
     model.compile(
         optimizer=optimizer,
@@ -88,7 +96,7 @@ for y in y_test:
 y_test = newY
 read_test_labels.close()
 print('Evaluate on test data')
-results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
+results = model.evaluate(x=X, y=tf.constant(y_test, dtype=tf.int32))  # convert_to_tensor
 print('test loss, test acc:', results)
 results_file = open('results_network3.txt', 'a+')
 results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
