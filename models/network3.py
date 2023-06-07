@@ -73,7 +73,7 @@ for y in Y:
 Y = newY
 read_train_labels.close()
 print('Training the model')
-history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
+history = model.fit(x=X, y=tf.constant(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
 model.save('my_qr_network3')
 
 # testing
