@@ -32,7 +32,7 @@ def load_my_data(path, num):
 
 
 def round_output(x):
-    return tf.round(tf.sigmoid(x))
+    return tf.floor(K.sigmoid(x) + 0.5)
 
 
 def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
