@@ -31,6 +31,7 @@ def load_my_data(path, num):
     return data
 
 
+@tf.function
 def round_output(x):
     return tf.round(x)
 
