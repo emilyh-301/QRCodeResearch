@@ -32,9 +32,9 @@ def load_my_data(path, num):
     return data
 
 
-@tf.function
-def round_output(x):
-    return tf.round(x)
+# @tf.function
+# def round_output(x):
+#     return tf.round(x)
 
 
 def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
@@ -56,7 +56,7 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
 
     # Define a custom output layer that applies thresholding
     def custom_output(x):
-        return tf.round(x)
+        return tf.math.round(x)
 
     model.add(Lambda(custom_output, name='binary_output'))  # Add the custom output layer
 
