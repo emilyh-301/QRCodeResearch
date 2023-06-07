@@ -31,7 +31,7 @@ def load_my_data(path, num):
 
 @tf.function
 def round_output(x):
-    return tf.floor(K.sigmoid(x) + 0.5)
+    return tf.round(tf.sigmoid(x))
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
