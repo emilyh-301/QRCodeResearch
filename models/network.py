@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import constants
+from keras import backend as K
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -30,16 +31,7 @@ def load_my_data(path, num):
 
 @tf.function
 def round_output(x):
-    output = []
-    for row in x:
-        new_row = []
-        for col in row:
-            if col >= .5:
-                new_row.append(1)
-            else:
-                new_row.append(0)
-        output.append(new_row)
-    return tf.convert_to_tensor(output, dtype=tf.float32)
+    return np.floor(K.sigmoid(x) + .5)
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0

@@ -4,6 +4,7 @@ import os
 import constants
 from tensorflow.keras import losses, models
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout
+from keras import backend as K
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -31,16 +32,7 @@ def load_my_data(path, num):
 
 
 def round_output(x):
-    output = []
-    for row in x:
-        new_row = []
-        for col in row:
-            if col >= .5:
-                new_row.append(1)
-            else:
-                new_row.append(0)
-        output.append(new_row)
-    return tf.convert_to_tensor(output, dtype=tf.int32)
+    return np.floor(K.sigmoid(x) + .5)
 
 
 def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
