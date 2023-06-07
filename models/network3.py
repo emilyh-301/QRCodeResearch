@@ -56,7 +56,7 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
 
     # Define a custom output layer that applies thresholding
     def custom_output(x):
-        return tf.cast(tf.math.greater_equal(x, .5), tf.int32)
+        return tf.cast(tf.math.greater_equal(x, .5), tf.float32)
 
     model.add(Lambda(custom_output, name='binary_output'))  # Add the custom output layer
 
