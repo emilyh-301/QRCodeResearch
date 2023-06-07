@@ -32,7 +32,7 @@ def load_my_data(path, num):
 
 
 def round_output(x):
-    return tf.floor(K.sigmoid(x) + 0.5)
+    return tf.round(tf.sigmoid(x))
 
 
 def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
@@ -54,7 +54,7 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     # compile
     model.compile(
         optimizer=optimizer,
-        loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
+        loss=tf.keras.losses.CategoricalCrossentropy(),
         metrics=['accuracy']
     )
     return model
