@@ -1,6 +1,7 @@
+import math
+
 import qrcode
 import base64
-import tensorflow as tf
 
 # tf.test.is_gpu_available( cuda_only=False, min_cuda_compute_capability=None )
 
@@ -44,17 +45,10 @@ c = [1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 
 bo = '1010100010001110101001001010000010101010011000001110100010101000101101001101100010100100110100101010001001100010100001001011001011000100011001101011010011101000101000101010111011101110011001001100001010010000100111000110101010101100101010101101000001100110101011001000110011011000011000101010110010001010011100100110001'
 print(len(bo))
 
+
+from keras import backend as K
 def round_output(x):
-    output = []
-    for row in x:
-        new_row = []
-        for col in row:
-            if col >= .5:
-                new_row.append(1)
-            else:
-                new_row.append(0)
-        output.append(new_row)
-    return tf.convert_to_tensor(output, dtype=tf.float32)
+    out = math.floor(K.sigmoid(x) + .5)
 
 o = [[.4,.7,.2], [0,.9,.1]]
 
