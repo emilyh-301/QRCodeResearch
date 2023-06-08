@@ -55,10 +55,10 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     model.add(Dense(180, activation=output_activation))
 
     # Define a custom output layer that applies thresholding
-    def custom_output(x):
-        return tf.math.round(x)
-
-    model.add(Lambda(custom_output, name='binary_output'))  # Add the custom output layer
+    # def custom_output(x):
+    #     return tf.math.round(x)
+    #
+    # model.add(Lambda(custom_output, name='binary_output'))  # Add the custom output layer
 
     # compile
     model.compile(
