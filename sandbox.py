@@ -57,5 +57,5 @@ print(round_output(o))
 
 import tensorflow as tf
 m = tf.keras.metrics.Accuracy()
-m.update_state([[1,0,1,0], [0,0,0,0]], [[.9,.9,.9,.9], [0,0,0,0]])
+m.update_state([[1,0,1,0]], [[.9,.9,.9,.9]])
 print(m.result().numpy())
