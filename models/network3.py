@@ -63,8 +63,8 @@ def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
     # compile
     model.compile(
         optimizer=optimizer,
-        loss=tf.keras.losses.CategoricalCrossentropy(),
-        metrics=['accuracy']
+        loss='mean_squared_error',
+        metrics=[tf.keras.metrics.MeanSquaredError()]
     )
     return model
 

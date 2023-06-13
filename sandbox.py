@@ -56,6 +56,6 @@ o = [[.4,.7,.2], [0,.9,.1]]
 print(round_output(o))
 
 import tensorflow as tf
-m = tf.keras.metrics.Accuracy()
+m = tf.keras.metrics.MeanSquaredError()
 m.update_state([[1,0,1,0]], [[.9,.9,.9,.9]])
 print(m.result().numpy())

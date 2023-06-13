@@ -42,12 +42,12 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
     input_shape=(33, 33, 1),
     pooling=None,
     classes=180,
-    classifier_activation=round_output,
+    classifier_activation=None #round_output,
 )
 
 model.compile(
     optimizer='adagrad',
-    loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True),
+    loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True), #mse
     metrics='acc',
     loss_weights=None,
     weighted_metrics=None,
