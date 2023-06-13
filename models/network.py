@@ -16,7 +16,7 @@ BATCH_SIZE = 32
 EPOCHS = 20
 
 
-def load_my_data(path, num):
+def load_train_data(path, num):
     """
     this method is for loading the qr code matrices that will be used as X input
     :param path: the path to your data
@@ -47,8 +47,8 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
 
 model.compile(
     optimizer='adagrad',
-    loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True), #mse
-    metrics='acc',
+    loss='mean_squared_error',
+    metrics=[tf.keras.metrics.MeanSquaredError()],
     loss_weights=None,
     weighted_metrics=None,
     run_eagerly=None,
@@ -58,7 +58,7 @@ model.compile(
 
 
 # training
-X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
+X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
 read_train_labels = open(train_labels, 'r')
 Y = read_train_labels.read().split('\n')  # the corresponding appended query string
 Y = Y[:-1]  # remove last element because of trailing new line
@@ -72,7 +72,7 @@ history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCH
 model.save('my_qr_network')
 
 # testing
-X = load_my_data(test_data_path, constants.num_of_test_data)
+X = load_train_data(test_data_path, constants.num_of_test_data)
 read_test_labels = open(test_labels, 'r')
 y_test = read_test_labels.read().split('\n')
 y_test = y_test[:-1]
@@ -82,11 +82,11 @@ for y in y_test:
 y_test = newY
 read_test_labels.close()
 print('Evaluate on test data')
-predictions = model.predict(x=X)
-# results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
-# print('test loss, test acc:', results)
-# results_file = open('results_network.txt', 'a')
-# results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
-# results_file.close()
+# predictions = model.predict(x=X)
+results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
+print('test loss, test acc:', results)
+results_file = open('results_network.txt', 'a')
+results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
+results_file.close()
 
-print(predictions[0])
+# print(predictions[0])
