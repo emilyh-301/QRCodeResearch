@@ -34,7 +34,7 @@ def load_my_data(path, num):
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
-model = tf.keras.applications.efficientnet.EfficientNetB7(
+model = tf.keras.applications.efficientnet.EfficientNetB1(
     include_top=True,
     weights=None,
     input_tensor=None,
