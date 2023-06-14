@@ -13,8 +13,8 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 32
-EPOCHS = 20
-loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'cosine_similarity', 'binary_crossentropy']
+EPOCHS = 35
+loss_funcs = ['binary_crossentropy', 'mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error']
 
 def load_train_data(path, num):
     """
