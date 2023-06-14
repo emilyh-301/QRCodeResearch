@@ -73,14 +73,14 @@ for loss_func in loss_funcs:
     read_train_labels.close()
     print('Training the model')
     history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-    model.save_weights('my_qr_network')
+    model.save_weights('my_qr_network2')
 
     # testing
     print('************************ Evaluate on test data')
     X, y_test = load_test_data()
     results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
     print('test loss, test acc:', results)
-    results_file = open('results_network.txt', 'a')
+    results_file = open('results_network2.txt', 'a')
     results_file.write(loss_func + '\ntest loss: ' + str(results[0]) + '   test acc: ' + str(results[1]) + '\n\n')
     results_file.close()
 
