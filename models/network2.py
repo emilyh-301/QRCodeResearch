@@ -13,8 +13,8 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 32
-EPOCHS = 20
-loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'cosine_similarity', 'binary_crossentropy']
+EPOCHS = 50
+
 
 def load_train_data(path, num):
     """
@@ -43,7 +43,7 @@ def load_test_data():
 
 
 # efficient net https://www.tensorflow.org/api_docs/python/tf/keras/applications/efficientnet/EfficientNetB0
-model = tf.keras.applications.efficientnet.EfficientNetB1(
+model = tf.keras.applications.efficientnet.EfficientNetB0(
     include_top=True,
     weights=None,
     input_tensor=None,
@@ -53,37 +53,41 @@ model = tf.keras.applications.efficientnet.EfficientNetB1(
     classifier_activation=None
 )
 
+# loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
+opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
+loss_funcs = ['mean_squared_logarithmic_error']
 for loss_func in loss_funcs:
-    model.compile(
-        optimizer='adagrad',
-        loss=loss_func,
-        metrics=[tf.keras.metrics.MeanSquaredError()],
-        loss_weights=None, weighted_metrics=None,
-    )
+    for opt_func in opt_funcs:
+        model.compile(
+            optimizer=opt_func,
+            loss=loss_func,
+            metrics=[tf.keras.metrics.MeanSquaredError()],
+            loss_weights=None, weighted_metrics=None,
+        )
 
-    # training
-    X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
-    read_train_labels = open(train_labels, 'r')
-    Y = read_train_labels.read().split('\n')  # the corresponding appended query string
-    Y = Y[:-1]  # remove last element because of trailing new line
-    newY = []
-    for y in Y:
-        newY.append([int(char) for char in y])
-    Y = newY
-    read_train_labels.close()
-    print('Training the model')
-    history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-    model.save_weights('my_qr_network2')
+        # training
+        X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
+        read_train_labels = open(train_labels, 'r')
+        Y = read_train_labels.read().split('\n')  # the corresponding appended query string
+        Y = Y[:-1]  # remove last element because of trailing new line
+        newY = []
+        for y in Y:
+            newY.append([int(char) for char in y])
+        Y = newY
+        read_train_labels.close()
+        print('Training the model')
+        history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
+        model.save_weights('my_qr_network2')
 
-    # testing
-    print('************************ Evaluate on test data')
-    X, y_test = load_test_data()
-    results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
-    print('test loss, test acc:', results)
-    results_file = open('results_network2.txt', 'a')
-    results_file.write(loss_func + '\ntest loss: ' + str(results[0]) + '   test acc: ' + str(results[1]) + '\n\n')
-    results_file.close()
+        # testing
+        print('************************ Evaluate on test data')
+        X, y_test = load_test_data()
+        results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
+        print('test loss, test acc:', results)
+        results_file = open('results_network2.txt', 'a')
+        results_file.write(loss_func + ' + ' + opt_func + '\ntest loss: ' + str(results[0]) + '   test acc: ' + str(results[1]) + '\n\n')
+        results_file.close()
 
-    predictions = model.predict(x=X)
-    print(predictions[0])
-    print(y_test[0])
+        predictions = model.predict(x=X)
+        print(predictions[0])
+        print(y_test[0])
