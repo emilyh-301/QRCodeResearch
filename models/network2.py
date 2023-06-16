@@ -13,7 +13,7 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 32
-EPOCHS = 50
+EPOCHS = 110
 
 
 def load_train_data(path, num):
@@ -54,8 +54,9 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
 )
 
 # loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
-opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
-loss_funcs = ['mean_squared_logarithmic_error']
+# opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
+opt_funcs = ['adadelta']
+loss_funcs = ['mean_absolute_error']
 for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model.compile(
