@@ -21,13 +21,14 @@ EPOCHS = 1
 
 def binary_to_string(binary):
     """
-    :param binary: a string of 0 and 1
+    :param binary: a list of 0 and 1
     :return: the corresponding alphanumeric string
     """
     string = ''
     for x in range(0, len(binary)-6, 6):
         b = binary[x:x+6]
-        string += output_mapping[b]
+        temp = ''.join(str(num) for num in b)
+        string += output_mapping[temp]
     return string
 
 
