@@ -65,6 +65,7 @@ for loss_func in loss_funcs:
             metrics=[tf.keras.metrics.MeanSquaredError()],
             loss_weights=None, weighted_metrics=None,
         )
+        model.load_weights('my_qr_network')
 
         # training
         X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
