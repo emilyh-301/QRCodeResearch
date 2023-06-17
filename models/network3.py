@@ -4,7 +4,7 @@ import os
 import constants
 from tensorflow.keras import losses, models
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout
-from models.plot_graph import plot_performance
+from plot_graph import plot_performance
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'

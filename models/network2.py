@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import constants
-from models.plot_graph import plot_performance
+from plot_graph import plot_performance
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
