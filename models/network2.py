@@ -55,8 +55,8 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
 
 # loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
 # opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
-opt_funcs = ['adadelta']
-loss_funcs = ['mean_absolute_error']
+opt_funcs = ['adam']
+loss_funcs = ['mean_squared_error']
 for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model.compile(
