@@ -1,11 +1,10 @@
 import tensorflow as tf
 import numpy as np
 import os
-from keras.layers import Lambda
 import constants
 from tensorflow.keras import losses, models
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout
-from keras import backend as K
+from models.plot_graph import plot_performance
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -15,11 +14,11 @@ train_labels = '../data/train/queryStrings.txt'
 test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
-BATCH_SIZE = 32
-EPOCHS = 50
+BATCH_SIZE = 64
+EPOCHS = 110
 
 
-def load_my_data(path, num):
+def load_train_data(path, num):
     """
     this method is for loading the qr code matrices that will be used as X input
     :param path: the path to your data
@@ -32,72 +31,82 @@ def load_my_data(path, num):
     return data
 
 
-# @tf.function
-# def round_output(x):
-#     return tf.round(x)
+def load_test_data():
+    X = load_train_data(test_data_path, constants.num_of_test_data)
+    read_test_labels = open(test_labels, 'r')
+    y_test = read_test_labels.read().split('\n')
+    y_test = y_test[:-1]
+    newY = []
+    for y in y_test:
+        newY.append([int(char) for char in y])
+    y_test = newY
+    read_test_labels.close()
+    return X, y_test
 
 
-def _create_model(opt='adam', ha='sigmoid', oa='sigmoid') -> models.Sequential:
+def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error') -> models.Sequential:
     hidden_activation = ha
     output_activation = oa
     optimizer = opt
     model = models.Sequential()
     # first layer
     model.add(Dense(180, activation=hidden_activation, input_shape=(33, 33, 1)))
-    #model.add(MaxPooling2D(pool_size=(2, 2)))
+
     # second layer
     model.add(Dense(360, activation=hidden_activation))
-    #model.add(MaxPooling2D(pool_size=(2, 2)))
+
     # third layer
     model.add(Dense(360, activation=hidden_activation))
     # output layer
     model.add(Flatten())
     model.add(Dense(180, activation=output_activation))
 
-    # Define a custom output layer that applies thresholding
-    # def custom_output(x):
-    #     return tf.math.round(x)
-    #
-    # model.add(Lambda(custom_output, name='binary_output'))  # Add the custom output layer
 
     # compile
     model.compile(
         optimizer=optimizer,
-        loss='mean_squared_error',
+        loss=l,
         metrics=[tf.keras.metrics.MeanSquaredError()]
     )
     return model
 
 
-model = _create_model(opt='adagrad')
+#model = _create_model(opt='adagrad')
 
-# training
-X = load_my_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
-read_train_labels = open(train_labels, 'r')
-Y = read_train_labels.read().split('\n')  # the corresponding appended query string
-Y = Y[:-1]  # remove last element because of trailing new line
-newY = []
-for y in Y:
-    newY.append([int(char) for char in y])
-Y = newY
-read_train_labels.close()
-print('Training the model')
-history = model.fit(x=X, y=tf.constant(Y, dtype=tf.int32), batch_size=BATCH_SIZE, epochs=EPOCHS, validation_split=.2)
-model.save('my_qr_network3')
+# loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
+# opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
+opt_funcs = ['adadelta']
+loss_funcs = ['mean_squared_error', 'binary_crossentropy']
+for loss_func in loss_funcs:
+    for opt_func in opt_funcs:
+        model = _create_model(opt=opt_func, l=loss_func)
 
-# testing
-X = load_my_data(test_data_path, constants.num_of_test_data)
-read_test_labels = open(test_labels, 'r')
-y_test = read_test_labels.read().split('\n')
-y_test = y_test[:-1]
-newY = []
-for y in y_test:
-    newY.append([int(char) for char in y])
-y_test = newY
-read_test_labels.close()
-print('Evaluate on test data')
-results = model.evaluate(x=X, y=tf.constant(y_test, dtype=tf.int32))  # convert_to_tensor
-print('test loss, test acc:', results)
-results_file = open('results_network3.txt', 'a+')
-results_file.write('test loss: ' + str(results[0]) + ' test acc: ' + str(results[1]))
-results_file.close()
+        # training
+        X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
+        read_train_labels = open(train_labels, 'r')
+        Y = read_train_labels.read().split('\n')  # the corresponding appended query string
+        Y = Y[:-1]  # remove last element because of trailing new line
+        newY = []
+        for y in Y:
+            newY.append([int(char) for char in y])
+        Y = newY
+        read_train_labels.close()
+        print('Training the model')
+        history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
+        model.save_weights('my_qr_network3')
+        plot_performance(history, title='plot_3_' + loss_func + '_' + opt_func)
+
+        # testing
+        print('************************ Evaluate on test data')
+        X, y_test = load_test_data()
+        results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
+
+        # write results to console and file
+        print('test loss, test mse:', results)
+        results_file = open('results_network3.txt', 'a')
+        results_file.write(loss_func + ' + ' + opt_func + ' + ' + str(EPOCHS) + '\ntest loss: ' + str(results[0]) + '   test mse: ' + str(results[1]) + '\n\n')
+        results_file.close()
+
+        predictions = model.predict(x=X)
+        print(predictions[0])
+        print(y_test[0])

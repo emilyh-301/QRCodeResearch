@@ -2,7 +2,7 @@ import tensorflow as tf
 import numpy as np
 import os
 import constants
-from keras import backend as K
+from models.plot_graph import plot_performance
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -12,7 +12,7 @@ train_labels = '../data/train/queryStrings.txt'
 test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 EPOCHS = 110
 
 
@@ -50,7 +50,7 @@ model = tf.keras.applications.efficientnet.EfficientNetB0(
     input_shape=(33, 33, 1),
     pooling=None,
     classes=180,
-    classifier_activation=None
+    classifier_activation='sigmoid'
 )
 
 # loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
@@ -79,14 +79,15 @@ for loss_func in loss_funcs:
         print('Training the model')
         history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
         model.save_weights('my_qr_network2')
+        plot_performance(history, title='plot_2_' + loss_func + '_' + opt_func)
 
         # testing
         print('************************ Evaluate on test data')
         X, y_test = load_test_data()
         results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
-        print('test loss, test acc:', results)
+        print('test loss, test mse:', results)
         results_file = open('results_network2.txt', 'a')
-        results_file.write(loss_func + ' + ' + opt_func + '\ntest loss: ' + str(results[0]) + '   test acc: ' + str(results[1]) + '\n\n')
+        results_file.write(loss_func + ' + ' + opt_func + ' + ' + str(EPOCHS) + '\ntest loss: ' + str(results[0]) + '   test mse: ' + str(results[1]) + '\n\n')
         results_file.close()
 
         predictions = model.predict(x=X)
