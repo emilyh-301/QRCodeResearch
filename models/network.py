@@ -15,6 +15,8 @@ test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 64
 EPOCHS = 1
+# reverse the char to binary dict
+binary_to_char = {value: key for key, value in output_mapping.items()}
 
 
 def binary_to_string(binary):
@@ -26,7 +28,7 @@ def binary_to_string(binary):
     for x in range(0, len(binary)-6, 6):
         b = binary[x:x+6]
         temp = ''.join(str(num) for num in b)
-        string += output_mapping[temp]
+        string += binary_to_char[temp]
     return string
 
 
