@@ -5,6 +5,7 @@ import constants
 from tensorflow.keras import losses, models
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout
 from plot_graph import plot_performance
+from mappings import output_mapping
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -15,7 +16,20 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 64
-EPOCHS = 110
+EPOCHS = 1
+
+
+def binary_to_string(binary):
+    """
+    :param binary: a string of 0 and 1
+    :return: the corresponding alphanumeric string
+    """
+    string = ''
+    for x in range(0, len(binary)-6, 6):
+        b = binary[x:x+6]
+        string += output_mapping[b]
+    return string
+
 
 
 def load_train_data(path, num):
@@ -110,3 +124,11 @@ for loss_func in loss_funcs:
         predictions = model.predict(x=X)
         print(predictions[0])
         print(y_test[0])
+        qr1 = constants.qr_config
+        url = constants.input_url + binary_to_string(y_test[0])
+        qr1.add_data(url)
+        rounded_numbers = list(map(lambda x: round(x), predictions[0]))
+        url = constants.input_url + binary_to_string(rounded_numbers)
+        qr2 = constants.qr_config
+        qr2.add_data(url)
+        print(constants.matrix_acc(qr1.get_matrix(), qr2.get_matrix()))
