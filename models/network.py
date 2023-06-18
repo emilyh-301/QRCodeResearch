@@ -26,9 +26,11 @@ def binary_to_string(binary):
     """
     string = ''
     for x in range(0, len(binary)-6, 6):
+        print(x)
         b = binary[x:x+6]
         temp = ''.join(str(num) for num in b)
         string += binary_to_char[temp]
+        print('$$$$$$$$$$       ' + string)
     return string
 
 
