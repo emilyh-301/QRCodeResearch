@@ -1,7 +1,7 @@
 import qrcode
 
-num_of_train_data = 16000
-num_of_test_data = 4000
+num_of_train_data = 80000
+num_of_test_data = 20000
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
 
@@ -15,14 +15,12 @@ qr_config = qrcode.QRCode(
 
 def matrix_acc(qr1, qr2):
     """
-    compares 2 qr code matrices
-    :param qr1: first matrix
-    :param qr2: second matrix
-    :return: the percent of matching squares
+    compares 2 qr code query strings
+    :param qr1: first query string
+    :param qr2: second query string
+    :return: the percent of matching bits
     """
-    total = 33 * 33
     count = 0
-    for row in range(len(qr1)):
-        for col in range(len(qr1[0])):
-            count += 1 if qr1[row][col] == qr2[row][col] else 0
-    return count / total
+    for x in range(180):
+        count += 1 if qr1[x] == qr2[x] else 0
+    return count/180

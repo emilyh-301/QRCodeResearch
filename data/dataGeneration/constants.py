@@ -1,7 +1,7 @@
 import qrcode
 
-num_of_train_data = 16000
-num_of_test_data = 4000
+num_of_train_data = 80000
+num_of_test_data = 20000
 
 input_url = 'https://h3turing.vmhost.psu.edu?'
 
