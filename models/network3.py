@@ -16,7 +16,7 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 64
-EPOCHS = 1
+EPOCHS = 45
 
 
 def load_train_data(path, num):
@@ -80,6 +80,7 @@ loss_funcs = ['mean_squared_error']
 for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
+        model.load_weights('my_qr_network3')
 
         # training
         X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
