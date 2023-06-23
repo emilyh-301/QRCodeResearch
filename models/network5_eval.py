@@ -79,20 +79,20 @@ for loss_func in loss_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
         model.load_weights('my_qr_network5')
 
-        # training
-        X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
-        read_train_labels = open(train_labels, 'r')
-        Y = read_train_labels.read().split('\n')  # the corresponding appended query string
-        Y = Y[:-1]  # remove last element because of trailing new line
-        newY = []
-        for y in Y:
-            newY.append([int(char) for char in y])
-        Y = newY
-        read_train_labels.close()
-        print('Training the model')
-        history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-        #model.save_weights('my_qr_network5_extra')
-        #plot_performance(history, title='plot_5_' + loss_func + '_' + opt_func)
+        # NO TRAINING, just evaluation here
+        # X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
+        # read_train_labels = open(train_labels, 'r')
+        # Y = read_train_labels.read().split('\n')  # the corresponding appended query string
+        # Y = Y[:-1]  # remove last element because of trailing new line
+        # newY = []
+        # for y in Y:
+        #     newY.append([int(char) for char in y])
+        # Y = newY
+        # read_train_labels.close()
+        # print('Training the model')
+        # history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
+        # model.save_weights('my_qr_network5_extra')
+        # plot_performance(history, title='plot_5_' + loss_func + '_' + opt_func)
 
         # testing
         print('************************ Evaluate on test data')
@@ -106,8 +106,11 @@ for loss_func in loss_funcs:
         results_file.close()
 
         predictions = model.predict(x=X)
-        print(predictions[0])
-        print(y_test[0])
-
-        rounded_numbers = list(map(lambda x: round(x), predictions[0]))
-        print(constants.matrix_acc(y_test[0], rounded_numbers))
+        # print(predictions[0])
+        # print(y_test[0])
+        total_acc = 0
+        for x in range(len(predictions)):
+            rounded_numbers = list(map(lambda x: round(x), predictions[x]))
+            total_acc += constants.matrix_acc(y_test[x], rounded_numbers)
+        print('Overall accuracy of the 180 bits for test data: ')
+        print(total_acc / constants.num_of_test_data)
