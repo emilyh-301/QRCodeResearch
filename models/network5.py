@@ -95,7 +95,7 @@ for loss_func in loss_funcs:
         #plot_performance(history, title='plot_5_' + loss_func + '_' + opt_func)
 
         # testing
-        print('************************ Evaluate on test data')
+        print('************************ Evaluate 5 on test data')
         X, y_test = load_test_data()
         results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
 

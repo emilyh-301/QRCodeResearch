@@ -74,6 +74,8 @@ loss_funcs = ['mean_squared_error']
 for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
+        # TODO load weights
+        print(model.summary())
 
         # training
         X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
@@ -91,7 +93,7 @@ for loss_func in loss_funcs:
         plot_performance(history, title='plot_4_' + loss_func + '_' + opt_func)
 
         # testing
-        print('************************ Evaluate on test data')
+        print('************************ Evaluate 4 on test data')
         X, y_test = load_test_data()
         results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
 
