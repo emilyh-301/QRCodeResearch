@@ -44,7 +44,7 @@ def load_test_data():
     return X, y_test
 
 
-def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error') -> models.Sequential:
+def _create_model(opt='adam', ha='relu', oa='sigmoid', l='mean_squared_error') -> models.Sequential:
     hidden_activation = ha
     output_activation = oa
     optimizer = opt
@@ -78,6 +78,7 @@ for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
         model.load_weights('my_qr_network5')
+        print(model.summary())
 
         # NO TRAINING, just evaluation here
         # X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
@@ -114,3 +115,4 @@ for loss_func in loss_funcs:
             total_acc += constants.matrix_acc(y_test[x], rounded_numbers)
         print('Overall accuracy of the 180 bits for test data: ')
         print(total_acc / constants.num_of_test_data)
+        print(len(predictions))
