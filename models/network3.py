@@ -71,7 +71,9 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
     return model
 
 
-#model = _create_model(opt='adagrad')
+model = _create_model(opt='adagrad')
+print(model.summary())
+exit(0)
 
 # loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
 # opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
