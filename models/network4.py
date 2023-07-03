@@ -44,16 +44,18 @@ def load_test_data():
     return X, y_test
 
 
-def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error') -> models.Sequential:
+def _create_model(opt, ha='relu', oa='sigmoid', l='mean_squared_error') -> models.Sequential:
     hidden_activation = ha
     output_activation = oa
     optimizer = opt
     model = models.Sequential()
+
+    model.add(Flatten())
+
     # first layer
     model.add(Dense(360, activation=hidden_activation, input_shape=(33, 33, 1)))
 
     # output layer
-    model.add(Flatten())
     model.add(Dense(180, activation=output_activation))
 
     # compile
@@ -89,8 +91,8 @@ for loss_func in loss_funcs:
         read_train_labels.close()
         print('Training the model')
         history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-        model.save_weights('my_qr_network4')
-        plot_performance(history, title='plot_4_' + loss_func + '_' + opt_func)
+        model.save_weights('my_qr_network4_flat')
+        plot_performance(history, title='plot_4_flatten' + loss_func + '_' + opt_func)
 
         # testing
         print('************************ Evaluate 4 on test data')
@@ -100,12 +102,20 @@ for loss_func in loss_funcs:
         # write results to console and file
         print('test loss, test mse:', results)
         results_file = open('results_network4.txt', 'a')
-        results_file.write(loss_func + ' + ' + opt_func + ' + ' + str(EPOCHS) + '\ntest loss: ' + str(results[0]) + '   test mse: ' + str(results[1]) + '\n\n')
+        results_file.write('FLAT ' + loss_func + ' + ' + opt_func + ' + ' + str(EPOCHS) + '\ntest loss: ' + str(results[0]) + '   test mse: ' + str(results[1]) + '\n\n')
         results_file.close()
 
         predictions = model.predict(x=X)
         print(predictions[0])
         print(y_test[0])
 
-        rounded_numbers = list(map(lambda x: round(x), predictions[0]))
-        print(constants.matrix_acc(y_test[0], rounded_numbers))
+        total_acc = 0
+        for x in range(len(predictions)):
+            rounded_numbers = list(map(lambda x: round(x), predictions[x]))
+            total_acc += constants.matrix_acc(y_test[x], rounded_numbers)
+        print('Overall accuracy of the 180 bits for test data: ')
+        print(total_acc / constants.num_of_test_data)
+
+        results_file = open('results_network4.txt', 'a+')
+        results_file.write('FLATTEN test accuracy: ' + str(total_acc / constants.num_of_test_data) + '\n\n')
+        results_file.close()

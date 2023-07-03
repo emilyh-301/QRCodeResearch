@@ -5,7 +5,6 @@ import constants
 from tensorflow.keras import losses, models
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout
 from plot_graph import plot_performance
-from mappings import output_mapping
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
@@ -16,7 +15,7 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 64
-EPOCHS = 40
+EPOCHS = 50
 
 
 def load_train_data(path, num):
@@ -51,16 +50,14 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
     optimizer = opt
     model = models.Sequential()
 
+    # Flatten
     model.add(Flatten())
 
     # first layer
-    model.add(Dense(180, activation=hidden_activation, input_shape=(33, 33, 1)))
+    model.add(Dense(320, activation=hidden_activation, input_shape=(33, 33, 1)))
 
     # second layer
-    model.add(Dense(360, activation=hidden_activation))
-
-    # third layer
-    model.add(Dense(360, activation=hidden_activation))
+    model.add(Dense(220, activation=hidden_activation))
 
     # output layer
     model.add(Dense(180, activation=output_activation))
@@ -74,9 +71,7 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
     return model
 
 
-# model = _create_model(opt='adagrad')
-# print(model.summary())
-# exit(0)
+#model = _create_model(opt='adagrad')
 
 # loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
 # opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
@@ -85,8 +80,7 @@ loss_funcs = ['mean_squared_error']
 for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
-        # TODO model.load_weights('my_qr_network3')
-        print(model.summary())
+        model.load_weights('my_qr_network5')
 
         # training
         X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
@@ -100,21 +94,21 @@ for loss_func in loss_funcs:
         read_train_labels.close()
         print('Training the model')
         history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
-        model.save_weights('my_qr_network3_flat')
-        plot_performance(history, title='plot_3_flatten' + loss_func + '_' + opt_func)
+        model.save_weights('my_qr_network5_flat')
+        plot_performance(history, title='plot_5_flatten' + loss_func + '_' + opt_func)
 
         # testing
-        print('************************ Evaluate 3 on test data')
+        print('************************ Evaluate Flat 5 on test data')
         X, y_test = load_test_data()
         results = model.evaluate(x=X, y=tf.convert_to_tensor(y_test, dtype=tf.int32))
 
         # write results to console and file
-        print('test loss, test mse:', results)
-        results_file = open('results_network3.txt', 'a')
+        print('FLATTEN: test loss, test mse:', results)
+        results_file = open('results_network5.txt', 'a+')
         results_file.write('FLATTEN ' + loss_func + ' + ' + opt_func + ' + ' + str(EPOCHS) + '\ntest loss: ' + str(results[0]) + '   test mse: ' + str(results[1]) + '\n\n')
         results_file.close()
 
-        predictions = model.predict(x=X)
+        predictions = model.predict(x=X)  # test data
         print(predictions[0])
         print(y_test[0])
 
@@ -125,6 +119,6 @@ for loss_func in loss_funcs:
         print('Overall accuracy of the 180 bits for test data: ')
         print(total_acc / constants.num_of_test_data)
 
-        results_file = open('results_network3.txt', 'a+')
+        results_file = open('results_network5.txt', 'a+')
         results_file.write('FLATTEN test accuracy: ' + str(total_acc / constants.num_of_test_data) + '\n\n')
         results_file.close()
