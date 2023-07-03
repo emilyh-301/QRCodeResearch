@@ -54,7 +54,7 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
     model.add(Flatten())
 
     # first layer
-    model.add(Dense(320, activation=hidden_activation, input_shape=(1089, 1)))
+    model.add(Dense(340, activation=hidden_activation, input_shape=(1089, 1)))
 
     # second layer
     model.add(Dense(220, activation=hidden_activation))

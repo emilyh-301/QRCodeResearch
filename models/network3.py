@@ -16,7 +16,7 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 64
-EPOCHS = 200
+EPOCHS = 500
 
 
 def load_train_data(path, num):
