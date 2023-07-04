@@ -51,10 +51,10 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
     optimizer = opt
     model = models.Sequential()
 
-    model.add(Flatten())
+    model.add(Flatten(input_shape=(33, 33, 1)))
 
     # first layer
-    model.add(Dense(180, activation=hidden_activation, input_shape=(33, 33, 1)))
+    model.add(Dense(180, activation=hidden_activation))
 
     # second layer
     model.add(Dense(360, activation=hidden_activation))
