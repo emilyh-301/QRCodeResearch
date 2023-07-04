@@ -53,7 +53,7 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
     model.add(Flatten(input_shape=(33, 33, 1)))
 
     # first layer
-    model.add(Dense(320, activation=hidden_activation))
+    model.add(Dense(363, activation=hidden_activation))
 
     # second layer
     model.add(Dense(220, activation=hidden_activation))
@@ -95,6 +95,7 @@ for loss_func in loss_funcs:
         history = model.fit(x=X, y=tf.convert_to_tensor(Y, dtype=tf.int32), epochs=EPOCHS, validation_split=.2)
         model.save_weights('my_qr_network5_flat')
         plot_performance(history, title='plot_5_flatten' + loss_func + '_' + opt_func)
+        print(model.summary())
 
         # testing
         print('************************ Evaluate Flat 5 on test data')
