@@ -53,14 +53,11 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
 
     model.add(Flatten(input_shape=(33, 33, 1)))
 
-    # first layer
-    model.add(Dense(180, activation=hidden_activation))
-
-    # second layer
-    model.add(Dense(360, activation=hidden_activation))
-
-    # third layer
-    model.add(Dense(360, activation=hidden_activation))
+    # dense layers
+    model.add(Dense(1089, activation=hidden_activation))
+    model.add(Dense(740, activation=hidden_activation))
+    model.add(Dense(520, activation=hidden_activation))
+    model.add(Dense(300, activation=hidden_activation))
 
     # output layer
     model.add(Dense(180, activation=output_activation))
@@ -86,6 +83,7 @@ for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
         #model.load_weights('my_qr_network3')
+        print(model.summary())
 
         # training
         X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
