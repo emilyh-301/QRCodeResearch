@@ -86,6 +86,7 @@ for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
         #model.load_weights('my_qr_network3')
+        model.build()
         print(model.summary())
 
         # training
