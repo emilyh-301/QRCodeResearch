@@ -56,6 +56,7 @@ def _create_model(opt, ha='relu', oa='sigmoid', l='mean_squared_error') -> model
     model.add(Dense(1089, activation=hidden_activation))
     model.add(Dense(2000, activation=hidden_activation))
     model.add(Dense(3000, activation=hidden_activation))
+    model.add(Dense(3000, activation=hidden_activation))
     model.add(Dense(2000, activation=hidden_activation))
     model.add(Dense(1000, activation=hidden_activation))
 
