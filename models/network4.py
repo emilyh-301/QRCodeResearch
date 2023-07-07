@@ -15,7 +15,7 @@ test_data_path = '../data/test/qrCodes.txt'
 test_labels = '../data/test/queryStrings.txt'
 
 BATCH_SIZE = 64
-EPOCHS = 200
+EPOCHS = 100
 
 
 def load_train_data(path, num):
@@ -50,10 +50,14 @@ def _create_model(opt, ha='relu', oa='sigmoid', l='mean_squared_error') -> model
     optimizer = opt
     model = models.Sequential()
 
-    model.add(Flatten())
+    model.add(Flatten(input_shape=(33, 33, 1)))
 
-    # first layer
-    model.add(Dense(360, activation=hidden_activation, input_shape=(33, 33, 1)))
+    # dense layers
+    model.add(Dense(1089, activation=hidden_activation))
+    model.add(Dense(2000, activation=hidden_activation))
+    model.add(Dense(3000, activation=hidden_activation))
+    model.add(Dense(2000, activation=hidden_activation))
+    model.add(Dense(1000, activation=hidden_activation))
 
     # output layer
     model.add(Dense(180, activation=output_activation))
@@ -67,7 +71,7 @@ def _create_model(opt, ha='relu', oa='sigmoid', l='mean_squared_error') -> model
     return model
 
 
-#model = _create_model(opt='adagrad')
+# model = _create_model(opt='adagrad')
 
 # loss_funcs = ['mean_squared_error', 'mean_absolute_error', 'mean_squared_logarithmic_error', 'binary_crossentropy']
 # opt_funcs = ['adagrad', 'adamax', 'adam', 'sgd', 'adadelta']
@@ -101,7 +105,8 @@ for loss_func in loss_funcs:
         # write results to console and file
         print('test loss, test mse:', results)
         results_file = open('results_network4.txt', 'a')
-        results_file.write('FLAT ' + loss_func + ' + ' + opt_func + ' + ' + str(EPOCHS) + '\ntest loss: ' + str(results[0]) + '   test mse: ' + str(results[1]) + '\n\n')
+        results_file.write('FLAT ' + loss_func + ' + ' + opt_func + ' + ' + str(EPOCHS) + '\ntest loss: ' + str(
+            results[0]) + '   test mse: ' + str(results[1]) + '\n\n')
         results_file.close()
 
         predictions = model.predict(x=X)
