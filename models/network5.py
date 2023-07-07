@@ -78,6 +78,7 @@ for loss_func in loss_funcs:
     for opt_func in opt_funcs:
         model = _create_model(opt=opt_func, l=loss_func)
         model.load_weights('my_qr_network5')
+        print(model.summary())
 
         # training
         X = load_train_data(train_data_path, constants.num_of_train_data)  # numpy array of input QR codes
