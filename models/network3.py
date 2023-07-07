@@ -56,11 +56,12 @@ def _create_model(opt='adadelta', ha='relu', oa='sigmoid', l='mean_squared_error
     model.add(Flatten(input_shape=(33, 33, 1)))
 
     # dense layers
-    model.add(Dense(1089, activation=hidden_activation))
-    model.add(Dense(840, activation=hidden_activation))
-    model.add(Dense(690, activation=hidden_activation))
-    model.add(Dense(520, activation=hidden_activation))
-    model.add(Dense(300, activation=hidden_activation))
+    model.add(Dense(2048, activation=hidden_activation))
+    model.add(Dense(1024, activation=hidden_activation))
+    model.add(Dense(512, activation=hidden_activation))
+    model.add(Dense(512, activation=hidden_activation))
+    model.add(Dense(256, activation=hidden_activation))
+    #model.add(Dense(180, activation=hidden_activation))
 
     # output layer
     model.add(Dense(180, activation=output_activation))
